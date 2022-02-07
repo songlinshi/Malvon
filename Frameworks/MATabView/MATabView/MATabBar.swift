@@ -30,6 +30,8 @@ open class MATabBar: NSView, MATabBarItemDelegate {
     // MARK: - Configuring
 
     private final func configureViews() {
+        wantsLayer = true
+
         addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.hasVerticalScroller = false

@@ -1,6 +1,11 @@
 #  Changes
 
 ## v1.2
+- Updated the javascript to get the theme color
+- Fixed problem where the search fields text color becomes black on a black background
+- Removed process pool because it was really slow
+- Fixed the problem where the tab bar will be black, and the elements will also be black
+- Fixed the problem where the tab bars background color won't be set
 - Decided to use process pool
 - Few Fixes with the tab bar
 - Changed the design of the search field

@@ -40,6 +40,22 @@ public extension String {
         }
     }
     
+    func stringAfter(_ after: Character) -> String {
+        if let index = firstIndex(of: after) {
+            return String(suffix(from: index).dropFirst())
+        } else {
+            return ""
+        }
+    }
+    
+    func stringBefore(_ before: Character) -> String {
+        if let index = firstIndex(of: before) {
+            return String(prefix(upTo: index))
+        } else {
+            return ""
+        }
+    }
+    
     var fileName: String {
         URL(fileURLWithPath: self).deletingPathExtension().lastPathComponent
     }

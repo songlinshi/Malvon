@@ -19,7 +19,7 @@ let waitTime = 0.43
 // The number of items in the closed tabs list
 let closeTabNumbers = 5
 
-let processPool = WKProcessPool()
+// let processPool = WKProcessPool()
 
 class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelegate, MATabViewDelegate {
     // MARK: - Elements
@@ -66,7 +66,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     
     init(config: WKWebViewConfiguration = WKWebViewConfiguration(), loadURL: Bool = true, windowCNTRL: MAWindowController) {
         self.webConfigurations = config
-        webConfigurations.processPool = processPool
+//        webConfigurations.processPool = processPool
         
         self.tabConfiguration = MATabViewConfiguration()
         
@@ -381,10 +381,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         }
                 
         // Update the webview elements
-        let ciColor = CIColor(color: tabConfiguration.lightTabBackgroundColor)!
-        
-        let value = (ciColor.red * 0.299 + ciColor.green * 0.587 + ciColor.blue * 0.114) * 1000
-        if !(value > 186) {
+        if !tabConfiguration.lightTabBackgroundColor.isLight {
             backButtonOutlet.contentTintColor = .white
             forwardButtonOutlet.contentTintColor = .white
             addNewTabButtonOutlet.contentTintColor = .white
@@ -392,6 +389,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             tabConfiguration.lightTabBorderColor = .white
             tabConfiguration.lightTabTitleTextColor = .white
             tabConfiguration.darkTabTitleTextColor = .white
+            searchField.textColor = .white
             searchField.layer?.borderColor = NSColor.white.cgColor
         } else {
             backButtonOutlet.contentTintColor = .black
@@ -401,6 +399,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             tabConfiguration.lightTabBorderColor = .gray
             tabConfiguration.lightTabTitleTextColor = .white
             tabConfiguration.darkTabTitleTextColor = .white
+            searchField.textColor = .black
             searchField.layer?.borderColor = NSColor.gray.cgColor
         }
         
@@ -408,19 +407,40 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func updateThemeColor(colorConfig: MATabViewConfiguration) {
-        let javascript = """
-        function a() {
-            var theme = document.querySelector("meta[name=theme-color]");
-            
-            return theme.content;
-        };
-        a();
-        """
+        let javascript = #"""
+                function a() {
+                    var theme = document.querySelector("meta[name=theme-color]");
+                    if (theme) {
+                        return theme.content;
+                    } else {
+                        return window.getComputedStyle(document.body).backgroundColor;
+                    }
+                };
+                a();
+        """#
         
         webView!.evaluateJavaScript(javascript) { [self] value, _ in
             if let value = value {
                 let hexValue = value as! String
-                let color = NSColor(hex: hexValue)
+                var color = NSColor.red
+                if hexValue.starts(with: "rgb") {
+                    let colors = hexValue.stringAfter("(").stringBefore(")")
+                    let colorValues = colors.components(separatedBy: ",")
+                    var alpha = 1.0
+                    if colorValues.count == 2 {
+                        alpha = CGFloat(Float(colorValues[3])!)
+                    }
+                    
+                    color = NSColor(
+                        red: CGFloat(Float(colorValues[0].removeWhitespace)!),
+                        green: CGFloat(Float(colorValues[1].removeWhitespace)!),
+                        blue: CGFloat(Float(colorValues[2].removeWhitespace)!),
+                        alpha: alpha
+                    )
+                } else {
+                    color = NSColor(hex: hexValue)
+                }
+                
                 colorConfig.lightTabBackgroundColor = color
                 colorConfig.darkTabColor = color.lighter()
                 colorConfig.lightTabColor = color.darker()
@@ -529,6 +549,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
                 let attrHost = NSAttributedString(string: url.absoluteString.fileName)
                 if url.absoluteString.fileName == "newtab" {
                     // Set the search field to nothing so that the user can type
+                    searchField.stringValue = ""
                     return
                 }
                 
@@ -920,7 +941,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     
     private func getNewWebViewInstance(config: WKWebViewConfiguration? = nil, url: URL? = nil) -> MAWebView {
         let webConfig = WKWebViewConfiguration()
-        webConfig.processPool = processPool
+//        webConfig.processPool = processPool
         let newWebView = MAWebView(frame: .zero, configuration: config ?? webConfig)
         
         newWebView.initializeWebView()
@@ -1020,4 +1041,10 @@ extension NSColor {
 
     func lighter() -> Self { mix(type: .light) }
     func darker() -> Self { mix(type: .dark) }
+    
+    var isLight: Bool {
+        guard let components = cgColor.components, components.count > 2 else { return false }
+        let brightness = ((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 1000
+        return (brightness > 0.5)
+    }
 }

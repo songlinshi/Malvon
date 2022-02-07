@@ -1,6 +1,7 @@
 #  Changes
 
 ## v1.0
+- Fixed the problem where the tab bars background color won't be set
 - Few Fixes with the tab bar
 - Added Support for hiding and unhiding tabs
 - Made fixed in the `updateColor` function
