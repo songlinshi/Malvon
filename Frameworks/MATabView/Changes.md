@@ -1,6 +1,9 @@
 #  Changes
 
 ## v1.0
+- Fixed the cursor problem when hiding a tab
+- Shows an NSMenu of hidden tabs
+- Animated the tab close button
 - Fixed the problem where the tab bars background color won't be set
 - Few Fixes with the tab bar
 - Added Support for hiding and unhiding tabs

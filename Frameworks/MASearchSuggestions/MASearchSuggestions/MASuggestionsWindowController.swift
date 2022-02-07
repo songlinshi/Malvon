@@ -331,5 +331,7 @@ public class MASuggestionsWindowController: NSWindowController {
         MAProperties.textColor = textColor
         
         myWindow?.backgroundColor = MAProperties.backgroundColor
+        ((window as? MASuggestionsWindow)?.parentElement as? MASuggestibleTextFieldCell)?.textColor = textColor
+
     }
 }

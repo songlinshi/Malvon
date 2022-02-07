@@ -166,6 +166,23 @@ open class MATabView: NSView, MATabBarDelegate {
         remove(tab: tab)
     }
 
+    public func tabBar(wantsToDisplayHiddenItemMenu tabBarView: MATabBar) -> [MATab] {
+        return hiddenTabs
+    }
+
+    public func tabBar(wantsToUnhide tabBarView: MATabBar, at position: Int) {
+        tabs.append(hiddenTabs[position])
+
+        for (index, tab) in tabs.enumerated() {
+            tab.position = index
+        }
+
+        tabBar.add(tab: hiddenTabs[position])
+        hiddenTabs.remove(at: position)
+
+        select(tab: position)
+    }
+
     public func tabBar(_ tabBarView: MATabBar, wantsToHide tab: MATab) {
         if selectedTab?.position == tab.position {
             if (tabs.count - 1) != 0 || (tabs.count - 1) == 1 {
@@ -178,6 +195,8 @@ open class MATabView: NSView, MATabBarDelegate {
             }
         }
 
+        tab.view.removeFromSuperview()
+
         hiddenTabs.append(tab)
         tabs.remove(at: tab.position)
         tabBar.remove(tab: tab)
@@ -187,7 +206,7 @@ open class MATabView: NSView, MATabBarDelegate {
         }
     }
 
-    public func tabBar(wantsToUnhide tabBarView: MATabBar) {
+    public func tabBar(wantsToUnhideAllTabs tabBarView: MATabBar) {
         tabs.append(contentsOf: hiddenTabs)
         for (index, tab) in tabs.enumerated() {
             tab.position = index
@@ -196,6 +215,7 @@ open class MATabView: NSView, MATabBarDelegate {
         for tab in hiddenTabs {
             tabBar.add(tab: tab)
         }
+
         hiddenTabs.removeAll()
     }
 

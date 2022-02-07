@@ -91,6 +91,7 @@ open class MATabBarItem: NSButton {
             layer?.borderColor = configuration.darkTabBorderColor.cgColor
             tabTitle.textColor = configuration.darkTabTitleTextColor
         }
+
         layer?.backgroundColor = bgColor.cgColor
         (cell as? NSButtonCell)?.backgroundColor = bgColor
     }
@@ -133,6 +134,7 @@ open class MATabBarItem: NSButton {
         closeButton.isBordered = false
         closeButton.imagePosition = .imageOnly
         closeButton.layer?.masksToBounds = false
+        closeButton.wantsLayer = true
 
         tabTitle.stringValue = tab.title
 
@@ -144,13 +146,14 @@ open class MATabBarItem: NSButton {
 
     override open func mouseEntered(with event: NSEvent) {
         super.mouseEntered(with: event)
-        closeButton.image = NSImage(named: NSImage.stopProgressTemplateName)
+        closeButton.contentTintColor = configuration.darkTabTitleTextColor
+        closeButton.animator().image = NSImage(named: NSImage.stopProgressTemplateName)
         animator().alphaValue = 0.8
     }
 
     override open func mouseExited(with event: NSEvent) {
         super.mouseExited(with: event)
-        closeButton.image = tab.icon
+        closeButton.animator().image = tab.icon
         animator().alphaValue = isSelectedTab ? 1 : 0.6
     }
 

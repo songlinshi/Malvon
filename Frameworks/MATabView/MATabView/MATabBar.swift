@@ -17,7 +17,9 @@ final class FlippedView: NSClipView {
     @objc optional func tabBar(_ tabBarView: MATabBar, didSelect tab: MATab)
     @objc optional func tabBar(_ tabBarView: MATabBar, wantsToClose tab: MATab)
     @objc optional func tabBar(_ tabBarView: MATabBar, wantsToHide tab: MATab)
-    @objc optional func tabBar(wantsToUnhide tabBarView: MATabBar)
+    @objc optional func tabBar(wantsToUnhideAllTabs tabBarView: MATabBar)
+    @objc optional func tabBar(wantsToUnhide tabBarView: MATabBar, at position: Int)
+    @objc optional func tabBar(wantsToDisplayHiddenItemMenu tabBarView: MATabBar) -> [MATab]
 }
 
 open class MATabBar: NSView, MATabBarItemDelegate {
@@ -71,8 +73,38 @@ open class MATabBar: NSView, MATabBarItemDelegate {
         stackView.spacing = 0.5
 
         let menu = NSMenu()
+        let subMenuItem = NSMenuItem()
+        subMenuItem.title = "Hidden Tabs"
+        subMenuItem.identifier = NSUserInterfaceItemIdentifier("MATabBarHiddenItemSubMenu")
+        subMenuItem.isEnabled = true
+        menu.addItem(subMenuItem)
+
         menu.addItem(withTitle: "Unhide all tabs", action: #selector(unhideAllTabs), keyEquivalent: "")
         self.menu = menu
+    }
+
+    override open func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        for item in menu.items {
+            if item.identifier?.rawValue == "MATabBarHiddenItemSubMenu" {
+                item.isEnabled = true
+                let hiddenTabs = delegate?.tabBar?(wantsToDisplayHiddenItemMenu: self)
+                let subMenu = NSMenu()
+
+                if let hiddenTabs = hiddenTabs {
+                    for (position, hiddenTab) in hiddenTabs.enumerated() {
+                        item.submenu = subMenu
+                        let menuItem = NSMenuItem(title: hiddenTab.title, action: #selector(unHideMenuItem), keyEquivalent: "")
+                        menuItem.tag = position
+                        subMenu.addItem(menuItem)
+                    }
+                }
+            }
+        }
+    }
+
+    @objc func unHideMenuItem(_ sender: NSMenuItem) {
+        sender.isHidden = true
+        delegate?.tabBar?(wantsToUnhide: self, at: sender.tag)
     }
 
     override public func draw(_ dirtyRect: NSRect) {
@@ -106,7 +138,7 @@ open class MATabBar: NSView, MATabBarItemDelegate {
     }
 
     @objc func unhideAllTabs() {
-        delegate?.tabBar?(wantsToUnhide: self)
+        delegate?.tabBar?(wantsToUnhideAllTabs: self)
     }
 
     // MARK: - Tab Functions

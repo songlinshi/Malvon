@@ -1,6 +1,9 @@
 #  Changes
 
 ## v1.2
+- Fixed the cursor problem when hiding a tab
+- Shows an NSMenu of hidden tabs
+- Animated the tab close button
 - Added Support for colors in the `MASearchSuggestions` framework
 - Updated the readme
 - Fixed the reload menu bar item
