@@ -1,6 +1,7 @@
 #  Changes
 
 ## v1.2
+- Added Support for colors in the `MASearchSuggestions` framework
 - Updated the readme
 - Fixed the reload menu bar item
 - Updated the search field alpha value

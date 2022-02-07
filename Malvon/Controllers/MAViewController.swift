@@ -396,6 +396,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             tabConfiguration.darkTabTitleTextColor = .white
             searchField.textColor = .white
             searchField.layer?.borderColor = NSColor.white.cgColor
+            suggestionsController?.updateColors(backgroundColor: tabConfiguration.darkTabBackgroundColor, highlightColor: .controlAccentColor, textColor: .white)
         } else {
             backButtonOutlet.contentTintColor = .black
             forwardButtonOutlet.contentTintColor = .black
@@ -407,6 +408,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             tabConfiguration.darkTabTitleTextColor = .white
             searchField.textColor = .black
             searchField.layer?.borderColor = NSColor.gray.cgColor
+            suggestionsController?.updateColors(backgroundColor: tabConfiguration.darkTabBackgroundColor, highlightColor: .controlAccentColor, textColor: .black)
         }
         
         webTabView.updateColors(configuration: tabConfiguration)

@@ -22,20 +22,22 @@ public class MASuggestionsWindowController: NSWindowController {
     private var needsLayoutUpdate = false
     private var localMouseDownEventMonitor: Any?
     private var lostFocusObserver: Any?
+    let myWindow: MASuggestionsWindow?
     
     public init() {
         let contentRec = NSRect(x: 0, y: 0, width: 20, height: 20)
-        let window = MASuggestionsWindow(contentRect: contentRec, defer: true)
-        super.init(window: window)
+        myWindow = MASuggestionsWindow(contentRect: contentRec, defer: true)
+        super.init(window: myWindow!)
         
         // MASuggestionsWindow is a transparent window, create RoundedCornersView and set it as the content view to draw a menu like window.
         let contentView = MARoundedCornersView(frame: contentRec)
-        window.contentView = contentView
+        myWindow!.contentView = contentView
         contentView.autoresizesSubviews = false
         needsLayoutUpdate = true
     }
     
     required init?(coder: NSCoder) {
+        myWindow = nil
         super.init(coder: coder)
     }
     
@@ -319,5 +321,15 @@ public class MASuggestionsWindowController: NSWindowController {
         if previousView != nil {
             userSetSelectedView(previousView)
         }
+    }
+    
+    // MARK: Configuration
+
+    open func updateColors(backgroundColor: NSColor, highlightColor: NSColor, textColor: NSColor) {
+        MAProperties.highlightColor = highlightColor
+        MAProperties.backgroundColor = backgroundColor
+        MAProperties.textColor = textColor
+        
+        myWindow?.backgroundColor = MAProperties.backgroundColor
     }
 }

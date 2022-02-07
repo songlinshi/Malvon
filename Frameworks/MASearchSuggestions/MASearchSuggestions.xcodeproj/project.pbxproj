@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		ED1F3E3D277DFDD200B61BEF /* MAProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1F3E3C277DFDD200B61BEF /* MAProperties.swift */; };
+		ED38847C27B19FAB00BAE953 /* Changes.md in Resources */ = {isa = PBXBuildFile; fileRef = ED38847B27B19FAB00BAE953 /* Changes.md */; };
+		ED38847E27B19FD400BAE953 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = ED38847D27B19FD400BAE953 /* README.md */; };
 		EDF62AE5277C8E11006DF3EB /* MASearchSuggestions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF62ADC277C8E11006DF3EB /* MASearchSuggestions.framework */; };
 		EDF62AEA277C8E11006DF3EB /* MASearchSuggestionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF62AE9277C8E11006DF3EB /* MASearchSuggestionsTests.swift */; };
 		EDF62AEB277C8E11006DF3EB /* MASearchSuggestions.h in Headers */ = {isa = PBXBuildFile; fileRef = EDF62ADF277C8E11006DF3EB /* MASearchSuggestions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,6 +34,8 @@
 
 /* Begin PBXFileReference section */
 		ED1F3E3C277DFDD200B61BEF /* MAProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAProperties.swift; sourceTree = "<group>"; };
+		ED38847B27B19FAB00BAE953 /* Changes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changes.md; sourceTree = "<group>"; };
+		ED38847D27B19FD400BAE953 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EDF62ADC277C8E11006DF3EB /* MASearchSuggestions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MASearchSuggestions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF62ADF277C8E11006DF3EB /* MASearchSuggestions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MASearchSuggestions.h; sourceTree = "<group>"; };
 		EDF62AE4277C8E11006DF3EB /* MASearchSuggestionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MASearchSuggestionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +73,8 @@
 			children = (
 				EDF62ADE277C8E11006DF3EB /* MASearchSuggestions */,
 				EDF62AE8277C8E11006DF3EB /* MASearchSuggestionsTests */,
+				ED38847B27B19FAB00BAE953 /* Changes.md */,
+				ED38847D27B19FD400BAE953 /* README.md */,
 				EDF62ADD277C8E11006DF3EB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -199,6 +205,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED38847E27B19FD400BAE953 /* README.md in Resources */,
+				ED38847C27B19FAB00BAE953 /* Changes.md in Resources */,
 				EDF62B05277C8E29006DF3EB /* MAFramworkDefaultCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

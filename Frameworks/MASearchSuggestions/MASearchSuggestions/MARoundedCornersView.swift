@@ -19,7 +19,7 @@ class MARoundedCornersView: NSView {
     
     override func draw(_ dirtyRect: NSRect) {
         let borderPath = NSBezierPath(roundedRect: bounds, xRadius: MAProperties.cornerRadius, yRadius: MAProperties.cornerRadius)
-        NSColor.windowBackgroundColor.setFill()
+        MAProperties.backgroundColor.setFill()
         borderPath.fill()
     }
     

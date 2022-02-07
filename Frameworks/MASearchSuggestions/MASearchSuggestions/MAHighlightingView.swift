@@ -15,16 +15,12 @@ class MAHighlightingView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         layer?.cornerRadius = MAProperties.cornerRadius
         if self.isHighlighted {
-            if #available(OSX 10.14, *) {
-                NSColor.selectedContentBackgroundColor.set()
-            } else {
-                NSColor.alternateSelectedControlColor.set()
-            }
-            __NSRectFillUsingOperation(dirtyRect, .sourceOver)
+            MAProperties.highlightColor.set()
+            dirtyRect.fill(using: .sourceOver)
             layer?.cornerRadius = MAProperties.cornerRadius
         } else {
             NSColor.clear.set()
-            __NSRectFillUsingOperation(dirtyRect, .sourceOver)
+            dirtyRect.fill(using: .sourceOver)
         }
     }
 
