@@ -1,6 +1,10 @@
 #  Changes
 
 ## v1.2
+- Updated the readme
+- Fixed the reload menu bar item
+- Updated the search field alpha value
+- Fixed the problem where the search fields text would become hidden on light mode
 - Updated the javascript to get the theme color
 - Fixed problem where the search fields text color becomes black on a black background
 - Removed process pool because it was really slow

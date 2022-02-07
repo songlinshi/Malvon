@@ -86,9 +86,10 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         
         // Setup the buttons
         styleElements()
-        searchField.alphaValue = 0.6
+        searchField.alphaValue = 0.8
         searchField.layer?.borderWidth = 1
         searchField.layer?.cornerRadius = 8
+        searchField.appearance = .init(named: .darkAqua)
     }
     
     override func viewDidLayout() {
@@ -206,12 +207,15 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         if webView!.canGoForward { webView!.goForward() }
     }
     
+    @IBAction func reloadWebpage(_ sender: Any) {
+        webView!.reload()
+    }
+    
     @IBAction func refreshButton(_ sender: NSButton) {
         // If there is a reload icon, reload the page and display the X icon
         if sender.image == NSImage(named: NSImage.refreshTemplateName) {
             webView!.reload()
             sender.image = NSImage(named: NSImage.stopProgressTemplateName)
-            
             // If there is a X icon, stop the webpage from loading
         } else if sender.image == NSImage(named: NSImage.stopProgressTemplateName) {
             webView!.stopLoading()
@@ -384,6 +388,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         if !tabConfiguration.lightTabBackgroundColor.isLight {
             backButtonOutlet.contentTintColor = .white
             forwardButtonOutlet.contentTintColor = .white
+            refreshButton.contentTintColor = .white
             addNewTabButtonOutlet.contentTintColor = .white
             tabConfiguration.darkTabBorderColor = .white
             tabConfiguration.lightTabBorderColor = .white
@@ -394,6 +399,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         } else {
             backButtonOutlet.contentTintColor = .black
             forwardButtonOutlet.contentTintColor = .black
+            refreshButton.contentTintColor = .black
             addNewTabButtonOutlet.contentTintColor = .black
             tabConfiguration.darkTabBorderColor = .gray
             tabConfiguration.lightTabBorderColor = .gray
@@ -683,12 +689,12 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             // This suggestion has been skipped, don"t skip the next one.
             skipNextSuggestion = false
         }
-        searchField.alphaValue = 0.8
+        searchField.alphaValue = 1
     }
     
     func controlTextDidEndEditing(_ obj: Notification) {
         suggestionsController?.cancelSuggestions()
-        searchField.alphaValue = 0.6
+        searchField.alphaValue = 0.8
     }
     
     func controlTextDidBeginEditing(_ obj: Notification) {
