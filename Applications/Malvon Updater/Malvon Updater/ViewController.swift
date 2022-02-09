@@ -11,7 +11,7 @@ class ViewController: NSViewController {
     @IBOutlet var textView: NSTextView!
     
     // Parameters
-    public let newFeatures = URL(string: "https://raw.githubusercontent.com/Ashwin-Paudel/Malvon/main/Malvon/Resources/update_feature_list.txt")!
+    public let newFeatures = URL(string: "https://raw.githubusercontent.com/Malvon-Browser/Malvon/main/Malvon/Resources/update_feature_list.txt")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,8 @@ class ViewController: NSViewController {
     }
     
     @IBAction func installPressed(_ sender: Any) {
-        let newestVersion = URL(string: "https://raw.githubusercontent.com/Ashwin-Paudel/Malvon/main/Malvon/Resources/version.txt")!.contents.removeWhitespace
-        let newAppFile = URL(string: "https://github.com/Ashwin-Paudel/Malvon/releases/download/v\(newestVersion)/Malvon.\(newestVersion).zip")!
+        let newestVersion = URL(string: "https://raw.githubusercontent.com/Malvon-Browser/Malvon/main/Malvon/Resources/version.txt")!.contents.removeWhitespace
+        let newAppFile = URL(string: "https://github.com/Malvon-Browser/Malvon/releases/download/v\(newestVersion)/Malvon.\(newestVersion).zip")!
         let downloadLocation = dataDirectory()!.appendingPathComponent("Malvon.\(newestVersion).zip")
         
         print(downloadLocation)

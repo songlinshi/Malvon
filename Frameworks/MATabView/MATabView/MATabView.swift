@@ -137,6 +137,7 @@ open class MATabView: NSView, MATabBarDelegate {
         if tabs.isEmpty || tabBar.tabCount == 1 {
             delegate?.tabView?(noMoreTabsLeft: self)
             return
+                // Check if the user is on the tab that will be removed
         } else if (tabs.count - 1) != 0 || (tabs.count - 1) == 1 {
             if selectedTab?.position == 0 {
                 selectedTab = tabs[selectedTab!.position + 1]

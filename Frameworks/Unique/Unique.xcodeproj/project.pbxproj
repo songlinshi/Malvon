@@ -19,13 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		ED087F4127ADEB9000739EA6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ED87CBB127A82C9700006253 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ED87CBB927A82C9700006253;
-			remoteInfo = Unique;
-		};
 		ED87CBC427A82C9700006253 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ED87CBB127A82C9700006253 /* Project object */;
@@ -35,28 +28,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		ED087F3527ADEB7700739EA6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		ED087F4327ADEB9000739EA6 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		ED0B165227AC12BC00AB1317 /* Changes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changes.md; sourceTree = "<group>"; };
 		ED87CBBD27A82C9700006253 /* Unique.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Unique.h; sourceTree = "<group>"; };
@@ -64,22 +35,14 @@
 		ED97544127AB31B600DAAEBB /* DOMNode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DOMNode.hpp; sourceTree = "<group>"; };
 		ED97544927AB383D00DAAEBB /* HTMLParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLParser.cpp; sourceTree = "<group>"; };
 		ED97544A27AB383D00DAAEBB /* HTMLParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = HTMLParser.hpp; sourceTree = "<group>"; };
-		EDA8FA8627B01F8A00AD659F /* UniqueTset */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = UniqueTset; path = /Users/ashwinpaudel/Desktop/Malvon/Frameworks/Unique/build/Debug/UniqueTset; sourceTree = "<absolute>"; };
-		EDB47EF827AF02AF00C0DE04 /* Unique.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Unique.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDB47EF927AF02AF00C0DE04 /* UniqueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UniqueTests.xctest; path = /Users/ashwinpaudel/Desktop/Malvon/Frameworks/Unique/build/Debug/UniqueTests.xctest; sourceTree = "<absolute>"; };
+		EDA5738C27B2C6350048C93C /* UniqueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = UniqueTests.xctest; path = /Users/ashwinpaudel/Desktop/Malvon/Frameworks/Unique/build/Debug/UniqueTests.xctest; sourceTree = "<absolute>"; };
+		EDB47EF827AF02AF00C0DE04 /* Unique.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Unique.framework; path = /Users/ashwinpaudel/Desktop/Malvon/Frameworks/Unique/build/Debug/Unique.framework; sourceTree = "<absolute>"; };
 		EDFB5A2A27A82FFA00C6F779 /* DOMNodeWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOMNodeWrapper.h; sourceTree = "<group>"; };
 		EDFB5A2B27A8305F00C6F779 /* DOMNodeWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DOMNodeWrapper.mm; sourceTree = "<group>"; };
 		EDFB5A3927A8356C00C6F779 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		ED087F3427ADEB7700739EA6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ED87CBB727A82C9700006253 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -102,7 +65,6 @@
 			children = (
 				ED87CBBC27A82C9700006253 /* Unique */,
 				ED0B165227AC12BC00AB1317 /* Changes.md */,
-				EDB47EF827AF02AF00C0DE04 /* Unique.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,25 +108,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		ED087F3627ADEB7700739EA6 /* UniqueTset */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ED087F3B27ADEB7700739EA6 /* Build configuration list for PBXNativeTarget "UniqueTset" */;
-			buildPhases = (
-				ED087F3327ADEB7700739EA6 /* Sources */,
-				ED087F3427ADEB7700739EA6 /* Frameworks */,
-				ED087F3527ADEB7700739EA6 /* CopyFiles */,
-				ED087F4327ADEB9000739EA6 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				ED087F4227ADEB9000739EA6 /* PBXTargetDependency */,
-			);
-			name = UniqueTset;
-			productName = UniqueTset;
-			productReference = EDA8FA8627B01F8A00AD659F /* UniqueTset */;
-			productType = "com.apple.product-type.tool";
-		};
 		ED87CBB927A82C9700006253 /* Unique */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ED87CBCC27A82C9700006253 /* Build configuration list for PBXNativeTarget "Unique" */;
@@ -198,7 +141,7 @@
 			);
 			name = UniqueTests;
 			productName = UniqueTests;
-			productReference = EDB47EF927AF02AF00C0DE04 /* UniqueTests.xctest */;
+			productReference = EDA5738C27B2C6350048C93C /* UniqueTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -211,9 +154,6 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
-					ED087F3627ADEB7700739EA6 = {
-						CreatedOnToolsVersion = 13.2.1;
-					};
 					ED87CBB927A82C9700006253 = {
 						CreatedOnToolsVersion = 13.2.1;
 						LastSwiftMigration = 1320;
@@ -238,7 +178,6 @@
 			targets = (
 				ED87CBB927A82C9700006253 /* Unique */,
 				ED87CBC127A82C9700006253 /* UniqueTests */,
-				ED087F3627ADEB7700739EA6 /* UniqueTset */,
 			);
 		};
 /* End PBXProject section */
@@ -263,13 +202,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		ED087F3327ADEB7700739EA6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ED87CBB627A82C9700006253 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -290,11 +222,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		ED087F4227ADEB9000739EA6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ED87CBB927A82C9700006253 /* Unique */;
-			targetProxy = ED087F4127ADEB9000739EA6 /* PBXContainerItemProxy */;
-		};
 		ED87CBC527A82C9700006253 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = ED87CBB927A82C9700006253 /* Unique */;
@@ -303,28 +230,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		ED087F3C27ADEB7700739EA6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B29PGN9AG4;
-				ENABLE_HARDENED_RUNTIME = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		ED087F3D27ADEB7700739EA6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B29PGN9AG4;
-				ENABLE_HARDENED_RUNTIME = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		ED87CBCA27A82C9700006253 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -540,15 +445,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ED087F3B27ADEB7700739EA6 /* Build configuration list for PBXNativeTarget "UniqueTset" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ED087F3C27ADEB7700739EA6 /* Debug */,
-				ED087F3D27ADEB7700739EA6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		ED87CBB427A82C9700006253 /* Build configuration list for PBXProject "Unique" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

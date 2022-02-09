@@ -71,13 +71,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func updateApplication() {
-        let newestVersion = MAURL("https://raw.githubusercontent.com/Ashwin-Paudel/Malvon/main/Malvon/Resources/version.txt").contents().removeWhitespace
+        let newestVersion = MAURL("https://raw.githubusercontent.com/Malvon-Browser/Malvon/main/Malvon/Resources/version.txt").contents().removeWhitespace
         
         if MA_APP_VERSION != newestVersion, !newestVersion.isEmpty {
             if askForPermissions() {
                 let task = Process()
                 task.launchPath = "/usr/bin/open"
-                task.arguments = ["\(Bundle.main.bundlePath)/Contents/Applications/Malvon\\ Updater.app"]
+                task.arguments = ["\(Bundle.main.bundlePath)/Contents/Applications/Malvon Updater.app"]
                 task.launch()
                 exit(0)
             }
