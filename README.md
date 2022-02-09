@@ -8,3 +8,6 @@ The new macOS Web Browser. This web browse
 
 ## TODO
 Check the [Features.md](Features.md)
+
+## Social
+- [Discord](https://discord.gg/HsjjJzeJeM)
