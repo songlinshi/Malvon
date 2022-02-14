@@ -18,6 +18,7 @@ class MAWindowController: NSWindowController {
         shouldCascadeWindows = false
 
         self.contentViewController = MAViewController(windowCNTRL: self)
+        self.window?.isMovableByWindowBackground = false
 
         let customToolbar = NSToolbar()
         window?.titleVisibility = .hidden

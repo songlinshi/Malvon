@@ -93,13 +93,6 @@
 			remoteGlobalIDString = ED87CBC227A82C9700006253;
 			remoteInfo = UniqueTests;
 		};
-		ED90E65027B158D600CF06D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ED87CBD227A82C9700006253 /* Unique.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ED90E64127B158B000CF06D4;
-			remoteInfo = UniqueTset;
-		};
 		EDD1A0F0277E73E8002BB362 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EDD1A0EC277E73E7002BB362 /* Malvon Updater.xcodeproj */;
@@ -297,7 +290,6 @@
 			children = (
 				ED87CBD827A82C9800006253 /* Unique.framework */,
 				ED87CBDA27A82C9800006253 /* UniqueTests.xctest */,
-				ED90E65127B158D600CF06D4 /* UniqueTset */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -365,17 +357,17 @@
 		EDF62B2D277C96AF006DF3EB /* Malvon */ = {
 			isa = PBXGroup;
 			children = (
-				EDB840EF27A4AF7100173C13 /* Info.plist */,
 				EDF62B2E277C96AF006DF3EB /* AppDelegate.swift */,
 				ED0B17DE277CEFF000BB47B1 /* Appicon.icns */,
+				ED806EF7277F87CB00D766F7 /* AppProperties.swift */,
 				EDF62BB0277CA4FB006DF3EB /* Controllers */,
+				EDB840EF27A4AF7100173C13 /* Info.plist */,
 				EDF62B32277C96B2006DF3EB /* MainMenu.xib */,
 				EDF62BB1277CA577006DF3EB /* Models */,
 				ED806EED277F858400D766F7 /* Preferences */,
 				EDF62BB5277CA5B7006DF3EB /* Resources */,
 				EDF62BB2277CA586006DF3EB /* View Models */,
 				EDF62BB4277CA5AC006DF3EB /* Views */,
-				ED806EF7277F87CB00D766F7 /* AppProperties.swift */,
 			);
 			path = Malvon;
 			sourceTree = "<group>";
@@ -637,13 +629,6 @@
 			fileType = wrapper.cfbundle;
 			path = UniqueTests.xctest;
 			remoteRef = ED87CBD927A82C9800006253 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ED90E65127B158D600CF06D4 /* UniqueTset */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = UniqueTset;
-			remoteRef = ED90E65027B158D600CF06D4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		EDD1A0F1277E73E8002BB362 /* Malvon Updater.app */ = {

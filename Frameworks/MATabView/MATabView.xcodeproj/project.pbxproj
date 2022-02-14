@@ -94,11 +94,11 @@
 		ED62D7182787383500ABE8DD /* MATabView */ = {
 			isa = PBXGroup;
 			children = (
-				ED62D7192787383500ABE8DD /* MATabView.h */,
-				ED75544527AC7EEA008D2948 /* MATabView.swift */,
+				ED75544727AC8159008D2948 /* MATab.swift */,
 				ED75544B27AC8279008D2948 /* MATabBar.swift */,
 				ED75547327AC9C8D008D2948 /* MATabBarItem.swift */,
-				ED75544727AC8159008D2948 /* MATab.swift */,
+				ED62D7192787383500ABE8DD /* MATabView.h */,
+				ED75544527AC7EEA008D2948 /* MATabView.swift */,
 				ED75544927AC822A008D2948 /* MATabViewConfiguration.swift */,
 			);
 			path = MATabView;

@@ -23,6 +23,8 @@ let closeTabNumbers = 5
 
 class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelegate, MATabViewDelegate {
     // MARK: - Elements
+
+    var AppConfigurations = AppProperties()
     
     // webView Element
     @IBOutlet var webTabView: MATabView!
@@ -106,6 +108,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchField.textColor = .black
         
         webTabView.configuration = tabConfiguration
         view.wantsLayer = true
@@ -152,7 +155,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         }
         
         Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] _ in
-            if AppProperties().hidesScreenElementsWhenNotActive {
+            if AppConfigurations.hidesScreenElementsWhenNotActive {
                 // When the app enters the background
                 let nc = NotificationCenter.default
                 nc.addObserver(self, selector: #selector(willEnterBackground), name: NSApplication.willResignActiveNotification, object: nil)
@@ -285,14 +288,16 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func checkButtons() {
-        if let webView = webView {
-            // If the webView can go back, enable the back button
-            webView.canGoBack ? (backButtonOutlet.isEnabled = true) : (backButtonOutlet.isEnabled = false)
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            if let webView = webView {
+                // If the webView can go back, enable the back button
+                webView.canGoBack ? (backButtonOutlet.isEnabled = true) : (backButtonOutlet.isEnabled = false)
             
-            // If the webView can go forward, enable the back forward
-            webView.canGoForward ? (forwardButtonOutlet.isEnabled = true) : (forwardButtonOutlet.isEnabled = false)
+                // If the webView can go forward, enable the back forward
+                webView.canGoForward ? (forwardButtonOutlet.isEnabled = true) : (forwardButtonOutlet.isEnabled = false)
             
-            webView.isLoading ? (refreshButton.image = NSImage(named: NSImage.stopProgressTemplateName)) : (refreshButton.image = NSImage(named: NSImage.refreshTemplateName))
+                webView.isLoading ? (refreshButton.image = NSImage(named: NSImage.stopProgressTemplateName)) : (refreshButton.image = NSImage(named: NSImage.refreshTemplateName))
+            }
         }
     }
     
@@ -320,11 +325,13 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         newHistoryJSON.append(MAHistoryElement(website: website, address: address))
         
         // Write the new JSON property
-        do {
-            let data = try JSONEncoder().encode(newHistoryJSON)
-            try data.write(to: MAHistoryViewController.path!)
-        } catch {
-            print(error.localizedDescription)
+        DispatchQueue(label: "Malvon History").async {
+            do {
+                let data = try JSONEncoder().encode(newHistoryJSON)
+                try data.write(to: MAHistoryViewController.path!)
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -466,10 +473,13 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     func mubWebView(_ webView: MAWebView, urlDidChange url: URL?) {
         // Update the search field URL
         updateWebsiteURL()
-        // Check if we should enable one of the buttons
-        checkButtons()
-        // Update the theme color
-        updateThemeColor(colorConfig: tabConfiguration)
+        
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            // Update the theme color
+            updateThemeColor(colorConfig: tabConfiguration)
+            // Check if we should enable one of the buttons
+            checkButtons()
+        }
     }
     
     func getFavicon(url: String) -> NSImage? {
@@ -546,53 +556,59 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func updateWebsiteURL() {
-        // Highlight the searchfield value
-        guard let url = webView!.url else { return }
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            // Highlight the searchfield value
+            guard let url = webView!.url else { return }
         
-        let attribute = [NSAttributedString.Key.foregroundColor: NSColor.gray]
+            let attribute = [NSAttributedString.Key.foregroundColor: NSColor.gray]
         
-        if url.scheme == "file" {
-            if url.absoluteString.starts(with: Bundle.main.bundleURL.absoluteString) == true {
-                let attrScheme = NSMutableAttributedString(string: "malvon?", attributes: attribute)
-                let attrHost = NSAttributedString(string: url.absoluteString.fileName)
-                if url.absoluteString.fileName == "newtab" {
-                    // Set the search field to nothing so that the user can type
-                    searchField.stringValue = ""
-                    return
-                }
+            if url.scheme == "file" {
+                if url.absoluteString.starts(with: Bundle.main.bundleURL.absoluteString) == true {
+                    let attrScheme = NSMutableAttributedString(string: "malvon?", attributes: attribute)
+                    let attrHost = NSAttributedString(string: url.absoluteString.fileName)
+                    if url.absoluteString.fileName == "newtab" {
+                        // Set the search field to nothing so that the user can type
+                        searchField.stringValue = ""
+                        return
+                    }
                 
-                attrScheme.append(attrHost)
-                searchField.attributedStringValue = attrScheme
+                    attrScheme.append(attrHost)
+                    searchField.attributedStringValue = attrScheme
+                } else {
+                    searchField.stringValue = url.absoluteString
+                }
             } else {
-                searchField.stringValue = url.absoluteString
+                let scheme = (url.scheme ?? "") + "://"
+                let host = url.host ?? ""
+                var path = url.path
+                let query = url.query ?? ""
+            
+                query.isEmpty ? () : (path += "?" + query)
+            
+                let attrPath = NSAttributedString(string: path, attributes: attribute)
+                let attrHost = NSAttributedString(string: host)
+                let attrScheme = NSMutableAttributedString(string: scheme, attributes: attribute)
+            
+                attrScheme.append(attrHost)
+                attrScheme.append(attrPath)
+            
+                searchField.attributedStringValue = attrScheme
             }
         } else {
-            let scheme = (url.scheme ?? "") + "://"
-            let host = url.host ?? ""
-            var path = url.path
-            let query = url.query ?? ""
-            
-            query.isEmpty ? () : (path += "?" + query)
-            
-            let attrPath = NSAttributedString(string: path, attributes: attribute)
-            let attrHost = NSAttributedString(string: host)
-            let attrScheme = NSMutableAttributedString(string: scheme, attributes: attribute)
-            
-            attrScheme.append(attrHost)
-            attrScheme.append(attrPath)
-            
-            searchField.attributedStringValue = attrScheme
+            searchField.stringValue = webView!.url!.absoluteString
         }
     }
     
     func mubWebView(_ webView: MAWebView, didFinishLoading url: URL?) {
-        // Add a new item into the history
-        addItem(website: webView.title!, address: webView.url!.absoluteString)
         // Update the state of the back and forward buttons
         checkButtons()
         // Update the theme color
-        let colorConfig = webTabView.tabBar.get(tabItem: webTabView.selectedTab!.position).configuration
-        updateThemeColor(colorConfig: colorConfig)
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            let colorConfig = webTabView.tabBar.get(tabItem: webTabView.selectedTab!.position).configuration
+            updateThemeColor(colorConfig: colorConfig)
+            // Add a new item into the history
+            addItem(website: webView.title!, address: webView.url!.absoluteString)
+        }
     }
     
     // MARK: - Search Field
@@ -683,19 +699,23 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func controlTextDidChange(_ obj: Notification) {
-        if !skipNextSuggestion {
-            updateSuggestions(from: obj.object as? NSControl)
-        } else {
-            // If the suggestionController is already in a cancelled state, this call does nothing and is therefore always safe to call.
-            suggestionsController?.cancelSuggestions()
-            // This suggestion has been skipped, don"t skip the next one.
-            skipNextSuggestion = false
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            if !skipNextSuggestion {
+                updateSuggestions(from: obj.object as? NSControl)
+            } else {
+                // If the suggestionController is already in a cancelled state, this call does nothing and is therefore always safe to call.
+                suggestionsController?.cancelSuggestions()
+                // This suggestion has been skipped, don"t skip the next one.
+                skipNextSuggestion = false
+            }
         }
         searchField.alphaValue = 1
     }
     
     func controlTextDidEndEditing(_ obj: Notification) {
-        suggestionsController?.cancelSuggestions()
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            suggestionsController?.cancelSuggestions()
+        }
         searchField.alphaValue = 0.8
     }
     
@@ -889,8 +909,11 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         // Hide the progress indicator
         progressIndicator.isHidden = true
         
-        tabConfiguration = MATabViewConfiguration()
-        updateThemeColor(colorConfig: tabConfiguration)
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            tabConfiguration = MATabViewConfiguration()
+        
+            updateThemeColor(colorConfig: tabConfiguration)
+        }
     }
     
     func tabView(_ tabView: MATabView, didCreateTab tab: MATab) {

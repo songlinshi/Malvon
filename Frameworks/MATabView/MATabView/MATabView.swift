@@ -38,6 +38,7 @@ open class MATabView: NSView, MATabBarDelegate {
 
     private final func configureViews() {
         tabBar.delegate = self
+        tabBar.tabView = self
         addSubview(tabBar)
 
         tabBar.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +74,13 @@ open class MATabView: NSView, MATabBarDelegate {
 
     open func select(tab: Int) {
         select(tab: tabs[tab])
+    }
+
+    open func updateTabIndexes(tabs: [MATab]) {
+        self.tabs = tabs
+        for (index, tab) in self.tabs.enumerated() {
+            tab.position = index
+        }
     }
 
     open func select(tab: MATab, isNewTab: Bool = false) {

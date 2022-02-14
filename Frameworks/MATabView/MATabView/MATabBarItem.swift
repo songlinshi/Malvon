@@ -5,6 +5,7 @@
 //  Created by Ashwin Paudel on 2022-01-06.
 //  Copyright © 2021-2022 Ashwin Paudel. All rights reserved.
 //
+// Some code used from: https://github.com/robin/LYTabView/blob/develop/LYTabView/LYTabItemView.swift
 
 import Cocoa
 
@@ -13,7 +14,8 @@ import Cocoa
     @objc optional func tabBarItem(_ tabBarItem: MATabBarItem, wantsToHide tab: MATab)
 }
 
-open class MATabBarItem: NSButton {
+open class MATabBarItem: NSButton, NSDraggingSource, NSPasteboardItemDataProvider {
+    open var tabBar: MATabBar?
     open var tab: MATab
     var isSelectedTab = false
     open weak var delegate: MATabBarItemDelegate?
@@ -25,6 +27,11 @@ open class MATabBarItem: NSButton {
     var xPosition: CGFloat = 4
     var yPosition: CGFloat = 2
     var closeButtonSize = NSSize(width: 16, height: 16)
+
+    private var dragOffset: CGFloat?
+    private var isDragging = false
+    private var draggingView: NSImageView?
+    private var draggingViewLeadingConstraint: NSLayoutConstraint?
 
     /// The Tab Title
     open var label: String {
@@ -137,8 +144,7 @@ open class MATabBarItem: NSButton {
         closeButton.wantsLayer = true
 
         tabTitle.stringValue = tab.title
-
-        let area = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect], owner: self, userInfo: nil)
+        let area = NSTrackingArea(rect: bounds, options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways, .inVisibleRect, .enabledDuringMouseDrag], owner: self, userInfo: nil)
         addTrackingArea(area)
 
         closeButton.image = tab.icon
@@ -157,6 +163,12 @@ open class MATabBarItem: NSButton {
         animator().alphaValue = isSelectedTab ? 1 : 0.6
     }
 
+    override open func mouseDown(with event: NSEvent) {
+        if !isDragging {
+            createDragAndDropSource(with: event)
+        }
+    }
+
     // MARK: - Button Actions
 
     @objc func closeTab() {
@@ -165,5 +177,93 @@ open class MATabBarItem: NSButton {
 
     @objc func hideTab() {
         delegate?.tabBarItem?(self, wantsToHide: tab)
+    }
+
+    // MARK: - Dragging Source
+
+    override open func mouseDragged(with event: NSEvent) {
+        if !isDragging {
+            createDragAndDropSource(with: event)
+        }
+    }
+
+    func createDragAndDropSource(with event: NSEvent) {
+        let pasteboardItem = NSPasteboardItem()
+        pasteboardItem.setData("testing".data(using: .utf8)!, forType: .string)
+        let draggingItem = NSDraggingItem(pasteboardWriter: pasteboardItem)
+        var draggingRect = frame
+        draggingRect.size.width = 1
+        draggingRect.size.height = 1
+        let testImage = NSImage(size: .init(width: 1, height: 1))
+
+        draggingItem.setDraggingFrame(draggingRect, contents: testImage)
+        let draggingSession = beginDraggingSession(with: [draggingItem], event: event, source: self)
+        draggingSession.animatesToStartingPositionsOnCancelOrFail = true
+    }
+
+    public func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {}
+
+    public func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+        if context == .withinApplication {
+            return .move
+        }
+        return NSDragOperation()
+    }
+
+    public func ignoreModifierKeys(for session: NSDraggingSession) -> Bool {
+        return true
+    }
+
+    public func draggingSession(_ session: NSDraggingSession, willBeginAt screenPoint: NSPoint) {
+        dragOffset = frame.origin.x - screenPoint.x
+        closeButton.isHidden = true
+        let dragRect = bounds
+        let image = NSImage(data: dataWithPDF(inside: dragRect))
+        draggingView = NSImageView(frame: dragRect)
+        if let draggingView = draggingView {
+            draggingView.image = image
+            draggingView.translatesAutoresizingMaskIntoConstraints = false
+            tabBar!.addSubview(draggingView)
+            draggingView.topAnchor.constraint(equalTo: tabBar!.topAnchor).isActive = true
+            draggingView.bottomAnchor.constraint(equalTo: tabBar!.bottomAnchor).isActive = true
+            draggingViewLeadingConstraint = draggingView.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: frame.origin.x)
+            draggingViewLeadingConstraint?.isActive = true
+        }
+        layer?.borderWidth = 0.0
+        isDragging = true
+        tabTitle.isHidden = true
+        needsDisplay = true
+    }
+
+    public func draggingSession(_ session: NSDraggingSession, movedTo screenPoint: NSPoint) {
+        if let constraint = draggingViewLeadingConstraint,
+           let offset = dragOffset, let draggingView = draggingView
+        {
+            var constant = screenPoint.x + offset
+            let min: CGFloat = 0
+            if constant < min {
+                constant = min
+            }
+            let max = tabBar!.frame.size.width - configuration.tabWidth
+            if constant > max {
+                constant = max
+            }
+            constraint.constant = constant
+
+            tabBar!.handleDraggingTab(draggingRect: draggingView.frame, tab: self)
+        }
+    }
+
+    public func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+        dragOffset = nil
+        isDragging = false
+        closeButton.isHidden = false
+        tabTitle.isHidden = false
+        draggingView?.removeFromSuperview()
+        draggingViewLeadingConstraint = nil
+        needsDisplay = true
+        tabBar!.updateTabIndexes()
+        layer?.borderWidth = 0.0
     }
 }

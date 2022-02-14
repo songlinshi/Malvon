@@ -28,6 +28,7 @@ open class MATabBar: NSView, MATabBarItemDelegate {
     private let containerView = FlippedView()
     open var configuration = MATabViewConfiguration()
     open weak var delegate: MATabBarDelegate?
+    open var tabView: MATabView?
 
     // MARK: - Configuring
 
@@ -143,6 +144,18 @@ open class MATabBar: NSView, MATabBarItemDelegate {
 
     // MARK: - Tab Functions
 
+    open func move(tab: MATabBarItem, at: Int) {
+        stackView.insertArrangedSubview(tab, at: at)
+        var tabs = [MATab]()
+
+        for (index, subview) in stackView.arrangedSubviews.enumerated() {
+            tabs.append((subview as! MATabBarItem).tab)
+            (subview as! MATabBarItem).tab.position = index
+        }
+
+        tabView!.updateTabIndexes(tabs: tabs)
+    }
+
     open func remove(tab: MATab) {
         NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.25
@@ -153,6 +166,12 @@ open class MATabBar: NSView, MATabBarItemDelegate {
             stackView.arrangedSubviews[tab.position].removeFromSuperview()
         }
         // Remap the position of each tab
+        for (index, subview) in stackView.arrangedSubviews.enumerated() {
+            (subview as! MATabBarItem).tab.position = index
+        }
+    }
+
+    open func updateTabIndexes() {
         for (index, subview) in stackView.arrangedSubviews.enumerated() {
             (subview as! MATabBarItem).tab.position = index
         }
@@ -170,11 +189,23 @@ open class MATabBar: NSView, MATabBarItemDelegate {
         newButton.title = ""
         newButton.target = self
         newButton.action = #selector(selectedTab(_:))
+        newButton.wantsLayer = true
         newButton.delegate = self
 
         newButton.bezelStyle = .shadowlessSquare
+        newButton.tabBar = self
 
         stackView.addArrangedSubview(newButton)
+    }
+
+    open func handleDraggingTab(draggingRect: NSRect, tab: MATabBarItem) {
+        var moved = false
+        let position = Int(draggingRect.minX / configuration.tabWidth)
+
+        if !(position < stackView.arrangedSubviews.count), !moved {
+            move(tab: tab, at: position - 1)
+            moved = true
+        }
     }
 
     @objc func selectedTab(_ sender: MATabBarItem) {

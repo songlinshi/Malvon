@@ -1,6 +1,9 @@
 #  Changes
 
 ## v1.2
+- Added Support for moving tabs, but not fully implemented
+- Added Support for drag and drop in the tabs, still not fully supported
+- Created EnergySaver mode
 - Fixed the cursor problem when hiding a tab
 - Shows an NSMenu of hidden tabs
 - Animated the tab close button

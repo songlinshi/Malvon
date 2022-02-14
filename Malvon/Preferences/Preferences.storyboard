@@ -92,19 +92,20 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iwd-Ab-Yn8">
-                                <rect key="frame" x="17" y="92" width="431" height="22"/>
+                                <rect key="frame" x="17" y="92" width="147" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Black view will be displayed when switching and creating new tabs" bezelStyle="regularSquare" imagePosition="left" controlSize="large" inset="2" id="i1f-CH-c1u">
+                                <buttonCell key="cell" type="check" title="Energy Saver Mode" bezelStyle="regularSquare" imagePosition="left" controlSize="large" inset="2" id="i1f-CH-c1u">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="showBlackScreen:" target="tm7-pd-KXy" id="rF0-pR-UIa"/>
+                                    <action selector="energySaverIsOnAction:" target="tm7-pd-KXy" id="jMb-zF-Z4o"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="energySaverIsOn" destination="iwd-Ab-Yn8" id="uMC-F7-fyY"/>
                         <outlet property="hidesScreenElementsWhenNotActive" destination="CX1-fQ-UAM" id="xTl-GD-pDx"/>
                         <outlet property="showBlackScreenButton" destination="iwd-Ab-Yn8" id="1Ad-RT-eiu"/>
                         <outlet property="showTabBarButton" destination="CX1-fQ-UAM" id="idS-YK-NX8"/>

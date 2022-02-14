@@ -12,10 +12,13 @@ class MAPrefsTabViewController: NSViewController {
     var properties = AppProperties()
     
     @IBOutlet var hidesScreenElementsWhenNotActive: NSButton!
+    @IBOutlet var energySaverIsOn: NSButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         properties.hidesScreenElementsWhenNotActive ? setState(hidesScreenElementsWhenNotActive, .on) : setState(hidesScreenElementsWhenNotActive, .off)
+        properties.isEnergySaverModeOn ? setState(energySaverIsOn, .on) : setState(energySaverIsOn, .off)
     }
     
     func setState(_ button: NSButton, _ state: NSControl.StateValue) {
@@ -25,7 +28,7 @@ class MAPrefsTabViewController: NSViewController {
     func relaunchAlert() {
         let alert = NSAlert()
         alert.messageText = "Relaunch Required"
-        alert.informativeText = "Relaunch is required to make changes"
+        alert.informativeText = "Relaunch is required to apply changes"
         
         alert.addButton(withTitle: "Yes")
         alert.addButton(withTitle: "No")
@@ -45,6 +48,18 @@ class MAPrefsTabViewController: NSViewController {
         } else {}
     }
     
+    @IBAction func energySaverIsOnAction(_ sender: Any) {
+        if properties.isEnergySaverModeOn == true {
+            properties.isEnergySaverModeOn = false
+        } else if properties.isEnergySaverModeOn == false {
+            properties.isEnergySaverModeOn = true
+        }
+        
+        properties.set()
+        
+        relaunchAlert()
+    }
+
     @IBAction func hidesScreenElementsWhenNotActiveAction(_ sender: NSButton) {
         if properties.hidesScreenElementsWhenNotActive == true {
             properties.hidesScreenElementsWhenNotActive = false
