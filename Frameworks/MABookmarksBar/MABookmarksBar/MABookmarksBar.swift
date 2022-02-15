@@ -161,7 +161,7 @@ open class MABookmarksBar: NSView, MABookmarksBarDelegate {
         return stackView.arrangedSubviews.count
     }
 
-    open func updateColors(selectedTab: MABookmarksItem) {
+    open func updateColors(background: NSColor, titleColor: NSColor) {
 //        self.configuration = configuration
         scrollView.heightAnchor.constraint(equalToConstant: barHeight).isActive = true
 //        let appearance = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
@@ -172,9 +172,8 @@ open class MABookmarksBar: NSView, MABookmarksBarDelegate {
 //            layer?.backgroundColor = configuration.lightTabBackgroundColor.cgColor
 //        }
 //
-//        for view in stackView.arrangedSubviews {
-//            (view as! MABookmarksBarItem).updateColors(configuration: configuration)
-//        (stackView.arrangedSubviews[selectedTab.position] as! MABookmarksItem).updateColors(configuration: configuration)
-//        }
+        for view in stackView.arrangedSubviews {
+            (view as! MABookmarksBarItem).updateColors(background: background, titleColor: titleColor)
+        }
     }
 }

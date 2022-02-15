@@ -24,3 +24,10 @@ public struct AppProperties {
         defaults.set(isEnergySaverModeOn, forKey: "MA_APP_PROPERTIES_isEnergySaverModeOn")
     }
 }
+
+public enum UserDefaultValues {
+    static let bookmarksBarItem = "Malvon_Bookmarks_Bar_Items_Array"
+    static let startHTMLPage = "startPageHTML"
+    static let lastOpenedTabs = "Malvon_lastOpenedTabs"
+    static let isBookmarksBarVisible = "Malvon_isBookmarksBarVisible"
+}

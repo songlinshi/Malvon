@@ -118,6 +118,12 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if defaults.bool(forKey: UserDefaultValues.isBookmarksBarVisible) {
+            bookmarksBar.isHidden = false
+        } else {
+            bookmarksBar.isHidden = true
+        }
+        
         bookmarksBar.delegate = self
         loadBookmarksBar()
         webTabView.configuration = tabConfiguration
@@ -132,18 +138,18 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         
         Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
             DispatchQueue.global(qos: .background).async { [self] in
-                if let string = UserDefaults.standard.string(forKey: "startPageHTML") {
+                if let string = UserDefaults.standard.string(forKey: UserDefaultValues.startHTMLPage) {
                     startPageHTML = string
                 } else {
                     startPageHTML = MAURL(newtabURL!).contents()
-                    UserDefaults.standard.set(startPageHTML, forKey: "startPageHTML")
+                    UserDefaults.standard.set(startPageHTML, forKey: UserDefaultValues.startHTMLPage)
                 }
                 
-                if let lastTabs = UserDefaults.standard.stringArray(forKey: "MAViewController_lastOpenedTabs") {
+                if let lastTabs = UserDefaults.standard.stringArray(forKey: UserDefaultValues.lastOpenedTabs) {
                     lastOpenedTabs = lastTabs
                 } else {
                     lastOpenedTabs = [String]()
-                    UserDefaults.standard.set(lastOpenedTabs, forKey: "MAViewController_lastOpenedTabs")
+                    UserDefaults.standard.set(lastOpenedTabs, forKey: UserDefaultValues.lastOpenedTabs)
                 }
             }
         }
@@ -419,7 +425,8 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             tabConfiguration.darkTabTitleTextColor = .white
             searchField.textColor = .white
             searchField.layer?.borderColor = NSColor.white.cgColor
-            suggestionsController?.updateColors(backgroundColor: tabConfiguration.darkTabBackgroundColor, highlightColor: .controlAccentColor, textColor: .white)
+            bookmarksBar.updateColors(background: tabConfiguration.darkTabBackgroundColor, titleColor: .white)
+            suggestionsController?.updateColors(backgroundColor: tabConfiguration.darkTabColor, highlightColor: .controlAccentColor, textColor: .white)
         } else {
             backButtonOutlet.contentTintColor = .black
             forwardButtonOutlet.contentTintColor = .black
@@ -432,6 +439,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             searchField.textColor = .black
             searchField.layer?.borderColor = NSColor.gray.cgColor
             suggestionsController?.updateColors(backgroundColor: tabConfiguration.darkTabBackgroundColor, highlightColor: .controlAccentColor, textColor: .black)
+            bookmarksBar.updateColors(background: tabConfiguration.lightTabColor, titleColor: .white)
         }
         
         webTabView.updateColors(configuration: tabConfiguration)
@@ -983,7 +991,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
                 
                 lastOpenedTabs.removeLast()
                 
-                UserDefaults.standard.set(lastOpenedTabs, forKey: "MAViewController_lastOpenedTabs")
+                UserDefaults.standard.set(lastOpenedTabs, forKey: UserDefaultValues.lastOpenedTabs)
             }
         }
         
@@ -1035,7 +1043,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func loadBookmarksBar() {
-        let dictionary: [String: String] = defaults.object(forKey: "Malvon_Bookmarks_Bar_Items_Array") as! [String: String]
+        let dictionary: [String: String] = defaults.object(forKey: UserDefaultValues.bookmarksBarItem) as! [String: String]
         
         for dictionary in dictionary {
             bookmarksBar.add(item: MABookmarksItem(title: dictionary.key, url: URL(string: dictionary.value)!))
@@ -1043,13 +1051,13 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func addBookmarksItem(title: String, url: URL) {
-        var dictionary: [String: String] = defaults.object(forKey: "Malvon_Bookmarks_Bar_Items_Array") as! [String: String]
+        var dictionary: [String: String] = defaults.object(forKey: UserDefaultValues.bookmarksBarItem) as! [String: String]
         
         dictionary[title] = url.absoluteString
         
         bookmarksBar.add(item: MABookmarksItem(title: title, url: url))
         
-        defaults.set(dictionary, forKey: "Malvon_Bookmarks_Bar_Items_Array")
+        defaults.set(dictionary, forKey: UserDefaultValues.bookmarksBarItem)
     }
 }
 

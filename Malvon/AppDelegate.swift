@@ -163,15 +163,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func hideBookmarksBar(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        
         let newWindow = NSApp.windows.isEmpty ? MAWindowController(windowNibName: "MAWindowController") : NSApp.mainWindow?.windowController!
         
         if NSApp.windows.isEmpty {
             return
         }
         
+        let isHidden = defaults.bool(forKey: UserDefaultValues.isBookmarksBarVisible)
+        defaults.set(!isHidden, forKey: UserDefaultValues.isBookmarksBarVisible)
+        
         if let newWindow = newWindow {
             let VC = newWindow.contentViewController as? MAViewController
-            VC!.bookmarksBar.isHidden = true
+            VC!.bookmarksBar.isHidden = isHidden
         } else {
             return
         }
