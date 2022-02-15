@@ -57,6 +57,12 @@ public class MAWebView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         self.isObserving = true
     }
     
+    public func enableBatterySaver() {
+        if self.isObserving {
+            self.removeObserver(self, forKeyPath: "estimatedProgress")
+        }
+    }
+    
     public func removeWebview() {
         self.isObserving = false
         self.removeObserver(self, forKeyPath: "estimatedProgress")

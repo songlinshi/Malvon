@@ -1,6 +1,11 @@
 #  Changes
 
 ## v1.2
+- Created a `enableBatterySaver` function in the webView
+- Made the reload button work
+- Created a `enableBatterySaver` function in the webView
+- Turned off drag and drop, because it didn't work well
+- A Few Improvements to EnergySaver mode
 - Added Support for moving tabs, but not fully implemented
 - Added Support for drag and drop in the tabs, still not fully supported
 - Created EnergySaver mode

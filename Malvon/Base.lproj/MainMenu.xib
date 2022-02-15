@@ -368,7 +368,11 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="Reload" keyEquivalent="R" id="xn0-zs-0LD"/>
+                            <menuItem title="Reload" keyEquivalent="R" id="xn0-zs-0LD">
+                                <connections>
+                                    <action selector="reloadWebpage:" target="-1" id="u14-V3-ukP"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="gJL-tg-7E1"/>
                             <menuItem title="Show History" keyEquivalent="H" id="KF8-XZ-uQR">
                                 <connections>

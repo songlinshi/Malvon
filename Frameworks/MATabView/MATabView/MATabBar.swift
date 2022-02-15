@@ -202,7 +202,7 @@ open class MATabBar: NSView, MATabBarItemDelegate {
         var moved = false
         let position = Int(draggingRect.minX / configuration.tabWidth)
 
-        if !(position < stackView.arrangedSubviews.count), !moved {
+        if !(position < stackView.arrangedSubviews.count) && !moved {
             move(tab: tab, at: position - 1)
             moved = true
         }

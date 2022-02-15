@@ -100,16 +100,20 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         if appearance == "Dark" {
             controlButtonBox.fillColor = tabConfiguration.darkTabBackgroundColor
             view.layer?.backgroundColor = tabConfiguration.darkTabBackgroundColor.cgColor
+            searchField.textColor = .white
         } else {
             controlButtonBox.fillColor = tabConfiguration.lightTabBackgroundColor
             view.layer?.backgroundColor = tabConfiguration.lightTabBackgroundColor.cgColor
+            searchField.textColor = .black
+        }
+        
+        if AppConfigurations.isEnergySaverModeOn {
+            progressIndicator.isHidden = true
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchField.textColor = .black
-        
         webTabView.configuration = tabConfiguration
         view.wantsLayer = true
         
@@ -233,7 +237,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         Timer.scheduledTimer(withTimeInterval: waitTime, repeats: false) { [self] _ in
             webTabView.create(tab: MATab(view: self.webView!, title: "Untitled Tab"))
             
-            webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            }
             
             webTabView.set(tab: webTabView.selectedTab!.position, title: self.webView!.title ?? "Untitled Tab")
             
@@ -248,7 +254,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         Timer.scheduledTimer(withTimeInterval: waitTime, repeats: false) { [self] _ in
             webTabView.create(tab: MATab(view: self.webView!, title: "Untitled Tab"))
             
-            webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            }
             
             webTabView.set(tab: webTabView.selectedTab!.position, title: self.webView!.title ?? "Untitled Tab")
             
@@ -266,7 +274,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         Timer.scheduledTimer(withTimeInterval: waitTime, repeats: false) { [self] _ in
             webTabView.create(tab: MATab(view: self.webView!, title: "Untitled Tab"))
             
-            webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url!.absoluteString) ?? NSImage())
+            }
             webTabView.set(tab: webTabView.selectedTab!.position, title: self.webView!.title ?? "Untitled Tab")
             
             self.webView?.delegate = self
@@ -488,6 +498,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         do {
             return NSImage(data: try Data(contentsOf: url!))
         } catch {}
+        
         return nil
     }
     
@@ -496,10 +507,12 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             // Set the new title
             webTabView.set(tab: webTabView.selectedTab!.position, title: self.webView!.title ?? "Untitled Tab")
             
-            // Get the favicon of the website
-            guard let webViewURL = webView.url?.absoluteString else { return }
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                // Get the favicon of the website
+                guard let webViewURL = webView.url?.absoluteString else { return }
             
-            webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: webViewURL) ?? NSImage())
+                webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: webViewURL) ?? NSImage())
+            }
         }
     }
     
@@ -511,7 +524,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         Timer.scheduledTimer(withTimeInterval: waitTime, repeats: false) { [self] _ in
             webTabView.create(tab: MATab(view: newWebView, title: "Untitled Tab"))
             
-            webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url?.absoluteString ?? "about:blank") ?? NSImage())
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                webTabView.set(tab: webTabView.selectedTab!.position, icon: getFavicon(url: self.webView!.url?.absoluteString ?? "about:blank") ?? NSImage())
+            }
             
             webTabView.set(tab: webTabView.selectedTab!.position, title: self.webView!.title ?? "Untitled Tab")
             
@@ -524,30 +539,32 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func mubWebView(_ webView: MAWebView, estimatedProgress progress: Double) {
-        // Make the progress indicator visible
-        progressIndicator.isHidden = false
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            // Make the progress indicator visible
+            progressIndicator.isHidden = false
         
-        // Change the refresh button's icon to X mark
-        refreshButton.image = NSImage(named: NSImage.stopProgressTemplateName)
+            // Change the refresh button's icon to X mark
+            refreshButton.image = NSImage(named: NSImage.stopProgressTemplateName)
         
-        // Set the value of the progress indicator
-        progressIndicator.doubleValue = (progress * 100)
+            // Set the value of the progress indicator
+            progressIndicator.doubleValue = (progress * 100)
         
-        // Increase the value by 50
-        progressIndicator.increment(by: 50)
+            // Increase the value by 50
+            progressIndicator.increment(by: 50)
         
-        // Set it to use threaded animations
-        progressIndicator.usesThreadedAnimation = true
+            // Set it to use threaded animations
+            progressIndicator.usesThreadedAnimation = true
         
-        if progressIndicator.doubleValue == 100 {
-            // Set the value to 0
-            progressIndicator.doubleValue = 0
-            // Hide the progress indicator
-            progressIndicator.isHidden = true
-            // Change the icon of the refresh button to the refresh icon
-            refreshButton.image = NSImage(named: NSImage.refreshTemplateName)
-            // Check if we should disable or enable any buttons
-            checkButtons()
+            if progressIndicator.doubleValue == 100 {
+                // Set the value to 0
+                progressIndicator.doubleValue = 0
+                // Hide the progress indicator
+                progressIndicator.isHidden = true
+                // Change the icon of the refresh button to the refresh icon
+                refreshButton.image = NSImage(named: NSImage.refreshTemplateName)
+                // Check if we should disable or enable any buttons
+                checkButtons()
+            }
         }
     }
     
@@ -618,7 +635,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             // Do nothing
             return
         } else if searchField.stringValue.starts(with: "malvon?") {
-            let URL = Bundle.main.url(forResource: searchField.stringValue.string("malvon?"), withExtension: "html")!
+            guard let URL = Bundle.main.url(forResource: searchField.stringValue.string("malvon?"), withExtension: "html") else { return }
             webView!.loadFileURL(URL, allowingReadAccessTo: URL)
             
             // If the URL starts with 'file'
@@ -720,49 +737,53 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func controlTextDidBeginEditing(_ obj: Notification) {
-        if !skipNextSuggestion {
-            // We keep the suggestionsController around, but lazely allocate it the first time it is needed.
-            if suggestionsController == nil {
-                suggestionsController = MASuggestionsWindowController()
-                suggestionsController?.target = self
-                suggestionsController?.action = #selector(searchFieldValueDidUpdate(_:))
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            if !skipNextSuggestion {
+                // We keep the suggestionsController around, but lazely allocate it the first time it is needed.
+                if suggestionsController == nil {
+                    suggestionsController = MASuggestionsWindowController()
+                    suggestionsController?.target = self
+                    suggestionsController?.action = #selector(searchFieldValueDidUpdate(_:))
+                }
+                updateSuggestions(from: obj.object as? NSControl)
             }
-            updateSuggestions(from: obj.object as? NSControl)
         }
     }
     
     /* As the delegate for the NSTextField, this class is given a chance to respond to the key binding commands interpreted by the input manager when the field editor calls -interpretKeyEvents:. This is where we forward some of the keyboard commands to the suggestion window to facilitate keyboard navigation. Also, this is where we can determine when the user deletes and where we can prevent AppKit"s auto completion.
      */
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
-        if commandSelector == #selector(NSResponder.moveUp(_:)) {
-            // Move up in the suggested selections list
-            suggestionsController?.moveUp(textView)
-            return true
-        }
-        if commandSelector == #selector(NSResponder.moveDown(_:)) {
-            // Move down in the suggested selections list
-            suggestionsController?.moveDown(textView)
-            return true
-        }
-        if commandSelector == #selector(NSResponder.deleteForward(_:)) || commandSelector == #selector(NSResponder.deleteBackward(_:)) {
-            /* The user is deleting the highlighted portion of the suggestion or more. Return NO so that the field editor performs the deletion. The field editor will then call -controlTextDidChange:. We don"t want to provide a new set of suggestions as that will put back the characters the user just deleted. Instead, set skipNextSuggestion to YES which will cause -controlTextDidChange: to cancel the suggestions window. (see -controlTextDidChange: above)
-             */
-            let insertionRange = textView.selectedRanges[0].rangeValue
-            if commandSelector == #selector(NSResponder.deleteBackward(_:)) {
-                skipNextSuggestion = (insertionRange.location != 0 || insertionRange.length > 0)
-            } else {
-                skipNextSuggestion = (insertionRange.location != textView.string.count || insertionRange.length > 0)
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            if commandSelector == #selector(NSResponder.moveUp(_:)) {
+                // Move up in the suggested selections list
+                suggestionsController?.moveUp(textView)
+                return true
             }
-            return false
-        }
-        if commandSelector == #selector(NSResponder.complete(_:)) {
-            // The user has pressed the key combination for auto completion. AppKit has a built in auto completion. By overriding this command we prevent AppKit"s auto completion and can respond to the user"s intention by showing or cancelling our custom suggestions window.
-            if suggestionsController != nil, suggestionsController!.window != nil, suggestionsController!.window!.isVisible {
-                suggestionsController?.cancelSuggestions()
-            } else {
-                updateSuggestions(from: control)
+            if commandSelector == #selector(NSResponder.moveDown(_:)) {
+                // Move down in the suggested selections list
+                suggestionsController?.moveDown(textView)
+                return true
             }
-            return true
+            if commandSelector == #selector(NSResponder.deleteForward(_:)) || commandSelector == #selector(NSResponder.deleteBackward(_:)) {
+                /* The user is deleting the highlighted portion of the suggestion or more. Return NO so that the field editor performs the deletion. The field editor will then call -controlTextDidChange:. We don"t want to provide a new set of suggestions as that will put back the characters the user just deleted. Instead, set skipNextSuggestion to YES which will cause -controlTextDidChange: to cancel the suggestions window. (see -controlTextDidChange: above)
+                 */
+                let insertionRange = textView.selectedRanges[0].rangeValue
+                if commandSelector == #selector(NSResponder.deleteBackward(_:)) {
+                    skipNextSuggestion = (insertionRange.location != 0 || insertionRange.length > 0)
+                } else {
+                    skipNextSuggestion = (insertionRange.location != textView.string.count || insertionRange.length > 0)
+                }
+                return false
+            }
+            if commandSelector == #selector(NSResponder.complete(_:)) {
+                // The user has pressed the key combination for auto completion. AppKit has a built in auto completion. By overriding this command we prevent AppKit"s auto completion and can respond to the user"s intention by showing or cancelling our custom suggestions window.
+                if suggestionsController != nil, suggestionsController!.window != nil, suggestionsController!.window!.isVisible {
+                    suggestionsController?.cancelSuggestions()
+                } else {
+                    updateSuggestions(from: control)
+                }
+                return true
+            }
         }
         // This is a command that we don't specifically handle, let the field editor do the appropriate thing.
         return false
@@ -906,8 +927,10 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         checkButtons()
         updateWebsiteURL()
         
-        // Hide the progress indicator
-        progressIndicator.isHidden = true
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            // Hide the progress indicator
+            progressIndicator.isHidden = true
+        }
         
         if !(AppConfigurations.isEnergySaverModeOn) {
             tabConfiguration = MATabViewConfiguration()
@@ -917,7 +940,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func tabView(_ tabView: MATabView, didCreateTab tab: MATab) {
-        progressIndicator.isHidden = true
+        if !(AppConfigurations.isEnergySaverModeOn) {
+            progressIndicator.isHidden = true
+        }
         view.window?.makeFirstResponder(searchField)
     }
     
@@ -957,8 +982,10 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         }
         
         if tabWebView != nil, webView!.isObserving {
-            // Hide progress indicator
-            progressIndicator.isHidden = true
+            if !(AppConfigurations.isEnergySaverModeOn) {
+                // Hide progress indicator
+                progressIndicator.isHidden = true
+            }
             // Stop it from loading
             tabWebView?.stopLoading()
             // Remove all the observers on the webview
@@ -980,6 +1007,10 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         
         DispatchQueue.global(qos: .background).async {
             newWebView.enableAdblock()
+        }
+        
+        if AppConfigurations.isEnergySaverModeOn {
+            newWebView.enableBatterySaver()
         }
         
         if config == nil {

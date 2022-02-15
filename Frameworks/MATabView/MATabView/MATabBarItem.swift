@@ -163,11 +163,11 @@ open class MATabBarItem: NSButton, NSDraggingSource, NSPasteboardItemDataProvide
         animator().alphaValue = isSelectedTab ? 1 : 0.6
     }
 
-    override open func mouseDown(with event: NSEvent) {
-        if !isDragging {
-            createDragAndDropSource(with: event)
-        }
-    }
+//    override open func mouseDown(with event: NSEvent) {
+//        if !isDragging {
+//            createDragAndDropSource(with: event)
+//        }
+//    }
 
     // MARK: - Button Actions
 
@@ -221,6 +221,8 @@ open class MATabBarItem: NSButton, NSDraggingSource, NSPasteboardItemDataProvide
         let image = NSImage(data: dataWithPDF(inside: dragRect))
         draggingView = NSImageView(frame: dragRect)
         if let draggingView = draggingView {
+            draggingView.layer?.borderColor = self.layer?.borderColor
+            draggingView.layer?.borderWidth = self.layer!.borderWidth
             draggingView.image = image
             draggingView.translatesAutoresizingMaskIntoConstraints = false
             tabBar!.addSubview(draggingView)
