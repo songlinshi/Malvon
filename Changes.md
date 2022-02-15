@@ -1,6 +1,8 @@
 #  Changes
 
 ## v1.2
+- Fixed problem where removing the webView's observer would cause an error
+- Fixed error where being on a tab and trying to close another tab, will not close the webview
 - Created a `enableBatterySaver` function in the webView
 - Made the reload button work
 - Created a `enableBatterySaver` function in the webView

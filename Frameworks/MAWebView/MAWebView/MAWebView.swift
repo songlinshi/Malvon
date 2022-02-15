@@ -38,6 +38,7 @@ import WebKit
 public class MAWebView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     public weak var delegate: MAWebViewDelegate?
     open var isObserving: Bool = false
+    open var energySaver = false
     
     private var frameworkBundle: Bundle? {
         let bundleId = "com.ashwin.MAWebView"
@@ -55,9 +56,11 @@ public class MAWebView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         self.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         self.addObserver(self, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
         self.isObserving = true
+        self.energySaver = false
     }
     
     public func enableBatterySaver() {
+        self.energySaver = true
         if self.isObserving {
             self.removeObserver(self, forKeyPath: "estimatedProgress")
         }
@@ -65,7 +68,7 @@ public class MAWebView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     
     public func removeWebview() {
         self.isObserving = false
-        self.removeObserver(self, forKeyPath: "estimatedProgress")
+        self.energySaver ? () : self.removeObserver(self, forKeyPath: "estimatedProgress")
         self.removeObserver(self, forKeyPath: "URL")
         self.removeObserver(self, forKeyPath: #keyPath(WKWebView.title))
         

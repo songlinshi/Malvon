@@ -1,6 +1,7 @@
 #  Changes
 
 ## v1.0
+- Fixed error where being on a tab and trying to close another tab, will not close the webview
 - Added Support for moving tabs, but not fully implemented
 - Added Support for drag and drop in the tabs, still not fully supported
 - Fixed the cursor problem when hiding a tab
