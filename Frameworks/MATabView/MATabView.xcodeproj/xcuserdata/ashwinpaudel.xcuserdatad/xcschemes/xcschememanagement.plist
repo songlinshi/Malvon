@@ -7,7 +7,20 @@
 		<key>MATabView.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>ED62D7152787383500ABE8DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ED62D71D2787383500ABE8DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

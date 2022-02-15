@@ -12,7 +12,6 @@
 		ED5343BE277E45510017AD05 /* MATools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED5343A1277E43120017AD05 /* MATools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ED62D742278739B500ABE8DD /* MATabView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED62D7372787383700ABE8DD /* MATabView.framework */; };
 		ED62D743278739B500ABE8DD /* MATabView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED62D7372787383700ABE8DD /* MATabView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		ED79F0C0277E64FB0047BB86 /* update_feature_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED79F0B9277E64FB0047BB86 /* update_feature_list.txt */; };
 		ED8025C5277D695100427E5C /* newtab.html in Resources */ = {isa = PBXBuildFile; fileRef = ED8025C4277D695100427E5C /* newtab.html */; };
 		ED806EF6277F859B00D766F7 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED806EF5277F859B00D766F7 /* Preferences.storyboard */; };
 		ED806EF8277F87CB00D766F7 /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED806EF7277F87CB00D766F7 /* AppProperties.swift */; };
@@ -20,12 +19,13 @@
 		ED806EFC277F8BB300D766F7 /* MAPrefsTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED806EFB277F8BB300D766F7 /* MAPrefsTabViewController.swift */; };
 		ED87CBDD27A82CB600006253 /* Unique.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED87CBD827A82C9800006253 /* Unique.framework */; };
 		ED87CBDE27A82CB600006253 /* Unique.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED87CBD827A82C9800006253 /* Unique.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		ED90E64327B158D500CF06D4 /* Features.md in Resources */ = {isa = PBXBuildFile; fileRef = ED90E64227B158D500CF06D4 /* Features.md */; };
 		EDD23ED127A4CCCC009B79B7 /* error_page.html in Resources */ = {isa = PBXBuildFile; fileRef = EDD23ED027A4CCCC009B79B7 /* error_page.html */; };
 		EDD24392277CC01B00926C9B /* MASearchSuggestions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD24386277CC01100926C9B /* MASearchSuggestions.framework */; };
 		EDD24393277CC01B00926C9B /* MASearchSuggestions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EDD24386277CC01100926C9B /* MASearchSuggestions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EDD24395277CC01E00926C9B /* MAWebView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD2438F277CC01400926C9B /* MAWebView.framework */; };
 		EDD24396277CC01E00926C9B /* MAWebView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EDD2438F277CC01400926C9B /* MAWebView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EDD5D04627BC02FA00E5A7F2 /* MABookmarksBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDA8982727BBE26300D5A7DF /* MABookmarksBar.framework */; };
+		EDD5D04727BC02FA00E5A7F2 /* MABookmarksBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EDA8982727BBE26300D5A7DF /* MABookmarksBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EDF62B2F277C96AF006DF3EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF62B2E277C96AF006DF3EB /* AppDelegate.swift */; };
 		EDF62B31277C96B2006DF3EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDF62B30277C96B2006DF3EB /* Assets.xcassets */; };
 		EDF62B34277C96B2006DF3EB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDF62B32277C96B2006DF3EB /* MainMenu.xib */; };
@@ -93,6 +93,20 @@
 			remoteGlobalIDString = ED87CBC227A82C9700006253;
 			remoteInfo = UniqueTests;
 		};
+		EDA8982627BBE26300D5A7DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDA8982127BBE26200D5A7DF /* MABookmarksBar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDA8980927BBE26200D5A7DF;
+			remoteInfo = MABookmarksBar;
+		};
+		EDA8982827BBE26300D5A7DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDA8982127BBE26200D5A7DF /* MABookmarksBar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDA8981127BBE26200D5A7DF;
+			remoteInfo = MABookmarksBarTests;
+		};
 		EDD1A0F0277E73E8002BB362 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EDD1A0EC277E73E7002BB362 /* Malvon Updater.xcodeproj */;
@@ -155,6 +169,7 @@
 				ED87CBDE27A82CB600006253 /* Unique.framework in Embed Frameworks */,
 				EDD24396277CC01E00926C9B /* MAWebView.framework in Embed Frameworks */,
 				EDD24393277CC01B00926C9B /* MASearchSuggestions.framework in Embed Frameworks */,
+				EDD5D04727BC02FA00E5A7F2 /* MABookmarksBar.framework in Embed Frameworks */,
 				ED62D743278739B500ABE8DD /* MATabView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -176,6 +191,7 @@
 		ED806EFB277F8BB300D766F7 /* MAPrefsTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAPrefsTabViewController.swift; sourceTree = "<group>"; };
 		ED87CBD227A82C9700006253 /* Unique.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Unique.xcodeproj; path = Unique/Unique.xcodeproj; sourceTree = "<group>"; };
 		ED90E64227B158D500CF06D4 /* Features.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Features.md; sourceTree = "<group>"; };
+		EDA8982127BBE26200D5A7DF /* MABookmarksBar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MABookmarksBar.xcodeproj; path = MABookmarksBar/MABookmarksBar.xcodeproj; sourceTree = "<group>"; };
 		EDB840EF27A4AF7100173C13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDD08B01277D812E000C866B /* Changes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changes.md; sourceTree = "<group>"; };
 		EDD1A0EC277E73E7002BB362 /* Malvon Updater.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Malvon Updater.xcodeproj"; path = "Malvon Updater/Malvon Updater.xcodeproj"; sourceTree = "<group>"; };
@@ -219,6 +235,7 @@
 				ED87CBDD27A82CB600006253 /* Unique.framework in Frameworks */,
 				EDD24395277CC01E00926C9B /* MAWebView.framework in Frameworks */,
 				EDD24392277CC01B00926C9B /* MASearchSuggestions.framework in Frameworks */,
+				EDD5D04627BC02FA00E5A7F2 /* MABookmarksBar.framework in Frameworks */,
 				ED62D742278739B500ABE8DD /* MATabView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,6 +307,15 @@
 			children = (
 				ED87CBD827A82C9800006253 /* Unique.framework */,
 				ED87CBDA27A82C9800006253 /* UniqueTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EDA8982227BBE26200D5A7DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDA8982727BBE26300D5A7DF /* MABookmarksBar.framework */,
+				EDA8982927BBE26300D5A7DF /* MABookmarksBarTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -392,6 +418,7 @@
 		EDF62B61277C97FA006DF3EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EDA8982127BBE26200D5A7DF /* MABookmarksBar.xcodeproj */,
 				ED87CBD227A82C9700006253 /* Unique.xcodeproj */,
 				ED62D72E2787383500ABE8DD /* MATabView.xcodeproj */,
 				ED53439B277E43110017AD05 /* MATools.xcodeproj */,
@@ -555,6 +582,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = EDA8982227BBE26200D5A7DF /* Products */;
+					ProjectRef = EDA8982127BBE26200D5A7DF /* MABookmarksBar.xcodeproj */;
+				},
+				{
 					ProductGroup = EDD1A0ED277E73E7002BB362 /* Products */;
 					ProjectRef = EDD1A0EC277E73E7002BB362 /* Malvon Updater.xcodeproj */;
 				},
@@ -631,6 +662,20 @@
 			remoteRef = ED87CBD927A82C9800006253 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		EDA8982727BBE26300D5A7DF /* MABookmarksBar.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MABookmarksBar.framework;
+			remoteRef = EDA8982627BBE26300D5A7DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EDA8982927BBE26300D5A7DF /* MABookmarksBarTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MABookmarksBarTests.xctest;
+			remoteRef = EDA8982827BBE26300D5A7DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		EDD1A0F1277E73E8002BB362 /* Malvon Updater.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -674,7 +719,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDF62B31277C96B2006DF3EB /* Assets.xcassets in Resources */,
-				ED90E64327B158D500CF06D4 /* Features.md in Resources */,
 				EDF62B5A277C96D3006DF3EB /* MAWindowController.xib in Resources */,
 				ED8025C5277D695100427E5C /* newtab.html in Resources */,
 				EDF62BAF277C99B7006DF3EB /* MAHistoryViewController.xib in Resources */,
@@ -682,7 +726,6 @@
 				EDF62B5E277C9738006DF3EB /* MAViewController.xib in Resources */,
 				EDF62BA7277C98F7006DF3EB /* MADownloadsViewController.xib in Resources */,
 				EDD23ED127A4CCCC009B79B7 /* error_page.html in Resources */,
-				ED79F0C0277E64FB0047BB86 /* update_feature_list.txt in Resources */,
 				ED806EF6277F859B00D766F7 /* Preferences.storyboard in Resources */,
 				EDF62B34277C96B2006DF3EB /* MainMenu.xib in Resources */,
 			);

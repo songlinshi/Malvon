@@ -147,6 +147,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    @IBAction func createBookmarkItem(_ sender: Any) {
+        let newWindow = NSApp.windows.isEmpty ? MAWindowController(windowNibName: "MAWindowController") : NSApp.mainWindow?.windowController!
+        
+        if NSApp.windows.isEmpty {
+            return
+        }
+        
+        if let newWindow = newWindow {
+            let VC = newWindow.contentViewController as? MAViewController
+            VC!.addBookmarksItem(title: VC!.webView!.title!, url: VC!.webView!.url!)
+        } else {
+            return
+        }
+    }
+    
+    @IBAction func hideBookmarksBar(_ sender: Any) {
+        let newWindow = NSApp.windows.isEmpty ? MAWindowController(windowNibName: "MAWindowController") : NSApp.mainWindow?.windowController!
+        
+        if NSApp.windows.isEmpty {
+            return
+        }
+        
+        if let newWindow = newWindow {
+            let VC = newWindow.contentViewController as? MAViewController
+            VC!.bookmarksBar.isHidden = true
+        } else {
+            return
+        }
+    }
+    
     // MARK: - Other
 
     public func setAsDefaultBrowser() {

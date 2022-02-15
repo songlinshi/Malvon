@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MABookmarksBar
 import MASearchSuggestions
 import MATabView
 import MATools
@@ -21,9 +22,12 @@ let closeTabNumbers = 5
 
 // let processPool = WKProcessPool()
 
-class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelegate, MATabViewDelegate {
+class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelegate, MATabViewDelegate, MABookmarksBarDelegate {
     // MARK: - Elements
 
+    let defaults = UserDefaults.standard
+
+    @IBOutlet var bookmarksBar: MABookmarksBar!
     var AppConfigurations = AppProperties()
     
     // webView Element
@@ -114,6 +118,8 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bookmarksBar.delegate = self
+        loadBookmarksBar()
         webTabView.configuration = tabConfiguration
         view.wantsLayer = true
         
@@ -1018,6 +1024,32 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         }
         
         return newWebView
+    }
+    
+    // MARK: - Bookmarks Bar
+
+    func bookmarksBar(_ bookmarksBar: MABookmarksBar, selected item: MABookmarksItem) {
+        webView!.load(URLRequest(url: item.url!))
+        
+        updateWebsiteURL()
+    }
+    
+    func loadBookmarksBar() {
+        let dictionary: [String: String] = defaults.object(forKey: "Malvon_Bookmarks_Bar_Items_Array") as! [String: String]
+        
+        for dictionary in dictionary {
+            bookmarksBar.add(item: MABookmarksItem(title: dictionary.key, url: URL(string: dictionary.value)!))
+        }
+    }
+    
+    func addBookmarksItem(title: String, url: URL) {
+        var dictionary: [String: String] = defaults.object(forKey: "Malvon_Bookmarks_Bar_Items_Array") as! [String: String]
+        
+        dictionary[title] = url.absoluteString
+        
+        bookmarksBar.add(item: MABookmarksItem(title: title, url: url))
+        
+        defaults.set(dictionary, forKey: "Malvon_Bookmarks_Bar_Items_Array")
     }
 }
 

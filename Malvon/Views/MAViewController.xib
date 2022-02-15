@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="addNewTabButtonOutlet" destination="q8L-5E-bWD" id="ZaG-1X-vaV"/>
                 <outlet property="backButtonOutlet" destination="Jdg-BP-fje" id="TqU-Ns-htE"/>
+                <outlet property="bookmarksBar" destination="uBv-OG-GON" id="gpx-kU-YEw"/>
                 <outlet property="controlButtonBox" destination="ucC-9r-3Ih" id="HUM-OT-DVW"/>
                 <outlet property="forwardButtonOutlet" destination="nIJ-8Z-Syk" id="Ybx-TY-fD8"/>
                 <outlet property="progressIndicator" destination="hRj-KC-y0I" id="yh3-Un-oIE"/>
@@ -26,9 +27,6 @@
             <rect key="frame" x="0.0" y="0.0" width="1045" height="478"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hmp-yZ-mmV" customClass="MATabView" customModule="MATabView">
-                    <rect key="frame" x="0.0" y="0.0" width="1045" height="440"/>
-                </customView>
                 <box boxType="custom" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="ucC-9r-3Ih">
                     <rect key="frame" x="0.0" y="442" width="1045" height="34"/>
                     <view key="contentView" id="Xg7-WT-uDj">
@@ -163,15 +161,37 @@
                         </constraints>
                     </view>
                 </box>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gYx-XN-cET">
+                    <rect key="frame" x="0.0" y="0.0" width="1045" height="442"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="uBv-OG-GON" customClass="MABookmarksBar" customModule="MABookmarksBar">
+                            <rect key="frame" x="0.0" y="412" width="1045" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="Wxl-Q6-Ulh"/>
+                            </constraints>
+                        </customView>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hmp-yZ-mmV" customClass="MATabView" customModule="MATabView">
+                            <rect key="frame" x="0.0" y="0.0" width="1045" height="412"/>
+                        </customView>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </subviews>
             <constraints>
                 <constraint firstItem="ucC-9r-3Ih" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="4yY-ps-Lif"/>
-                <constraint firstAttribute="bottom" secondItem="Hmp-yZ-mmV" secondAttribute="bottom" id="5Ca-dp-uhb"/>
                 <constraint firstItem="ucC-9r-3Ih" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="2" id="K3P-zP-wel"/>
-                <constraint firstItem="Hmp-yZ-mmV" firstAttribute="top" secondItem="ucC-9r-3Ih" secondAttribute="bottom" constant="2" id="MNE-up-bpK"/>
-                <constraint firstAttribute="trailing" secondItem="Hmp-yZ-mmV" secondAttribute="trailing" id="b8X-2R-1f8"/>
+                <constraint firstItem="gYx-XN-cET" firstAttribute="top" secondItem="ucC-9r-3Ih" secondAttribute="bottom" id="Nan-sy-ttn"/>
+                <constraint firstAttribute="bottom" secondItem="gYx-XN-cET" secondAttribute="bottom" id="VZj-CB-Ux7"/>
+                <constraint firstAttribute="trailing" secondItem="gYx-XN-cET" secondAttribute="trailing" id="YcC-PA-aCT"/>
+                <constraint firstItem="gYx-XN-cET" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="n2i-gb-mIO"/>
                 <constraint firstAttribute="trailing" secondItem="ucC-9r-3Ih" secondAttribute="trailing" id="tSs-v8-d1r"/>
-                <constraint firstItem="Hmp-yZ-mmV" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="zqZ-Uo-S7r"/>
             </constraints>
             <point key="canvasLocation" x="138.5" y="136"/>
         </customView>

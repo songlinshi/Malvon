@@ -373,6 +373,11 @@
                                     <action selector="reloadWebpage:" target="-1" id="u14-V3-ukP"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Create Bookmark Item" keyEquivalent="d" id="bBG-z1-NsL">
+                                <connections>
+                                    <action selector="createBookmarkItem:" target="-1" id="Q8a-O7-RFu"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="gJL-tg-7E1"/>
                             <menuItem title="Show History" keyEquivalent="H" id="KF8-XZ-uQR">
                                 <connections>
@@ -382,6 +387,12 @@
                             <menuItem title="Show Downloads" keyEquivalent="D" id="lGu-nn-3CL">
                                 <connections>
                                     <action selector="showDownloadHistory:" target="-1" id="v7M-ww-qtP"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide/Show Bookmarks Bar" id="eRW-do-Ln8">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="hideBookmarksBar:" target="-1" id="HZ1-A0-QhO"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="pC3-BZ-awd"/>
