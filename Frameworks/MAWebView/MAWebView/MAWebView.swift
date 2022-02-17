@@ -25,7 +25,7 @@ import WebKit
     /// When the webview is done loading
     @objc optional func mubWebView(_ webView: MAWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures)
     
-    @objc func mubWebView(_ webView: MAWebView, createWebViewWith configuration: WKWebViewConfiguration, navigationAction: WKNavigationAction) -> MAWebView
+    @objc func mubWebView(_ webView: MAWebView, createWebViewWith configuration: WKWebViewConfiguration, navigationAction: WKNavigationAction) -> MAWebView?
     
     @objc func mubWebViewWillCloseTab()
     

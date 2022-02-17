@@ -1,6 +1,7 @@
 #  Changes
 
 ## v1.2
+- Fixed the bookmarks problem where it will crash the app
 - Few improvements with a few stuff
 - Added Support for colors in the bookmarks bar
 - Created a basic bookmarks bar

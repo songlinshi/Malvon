@@ -15,10 +15,14 @@ import MAWebView
 import WebKit
 
 // The browser will have a slight delay when creating a new tab
+// Default is 0.43 seconds
 let waitTime = 0.43
 
 // The number of items in the closed tabs list
 let closeTabNumbers = 5
+
+// If it should show the bookbars bar in the start page
+let showsBookmarkOnlyInStartPage = false
 
 // let processPool = WKProcessPool()
 
@@ -495,6 +499,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func mubWebView(_ webView: MAWebView, urlDidChange url: URL?) {
+        if showsBookmarkOnlyInStartPage {
+            bookmarksBar.isHidden = true
+        }
         // Update the search field URL
         updateWebsiteURL()
         
@@ -530,7 +537,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         }
     }
     
-    func mubWebView(_ webView: MAWebView, createWebViewWith configuration: WKWebViewConfiguration, navigationAction: WKNavigationAction) -> MAWebView {
+    func mubWebView(_ webView: MAWebView, createWebViewWith configuration: WKWebViewConfiguration, navigationAction: WKNavigationAction) -> MAWebView? {
         // Create a new tab and open it
         
         let newWebView = getNewWebViewInstance(config: configuration)
@@ -957,6 +964,9 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         if !(AppConfigurations.isEnergySaverModeOn) {
             progressIndicator.isHidden = true
         }
+        if showsBookmarkOnlyInStartPage {
+            bookmarksBar.isHidden = false
+        }
         view.window?.makeFirstResponder(searchField)
     }
     
@@ -1043,10 +1053,12 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func loadBookmarksBar() {
-        let dictionary: [String: String] = defaults.object(forKey: UserDefaultValues.bookmarksBarItem) as! [String: String]
+        let dictionary: [String: String]? = defaults.object(forKey: UserDefaultValues.bookmarksBarItem) as? [String: String] ?? nil
         
-        for dictionary in dictionary {
-            bookmarksBar.add(item: MABookmarksItem(title: dictionary.key, url: URL(string: dictionary.value)!))
+        if let dictionary = dictionary {
+            for dictionary in dictionary {
+                bookmarksBar.add(item: MABookmarksItem(title: dictionary.key, url: URL(string: dictionary.value)!))
+            }
         }
     }
     
