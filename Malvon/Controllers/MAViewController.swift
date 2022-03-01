@@ -140,8 +140,7 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             cell.focusRingType = .none
         }
         
-        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
-            DispatchQueue.global(qos: .background).async { [self] in
+        DispatchQueue.global(qos: .background).async { [self] in
                 if let string = UserDefaults.standard.string(forKey: UserDefaultValues.startHTMLPage) {
                     startPageHTML = string
                 } else {
@@ -155,7 +154,6 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
                     lastOpenedTabs = [String]()
                     UserDefaults.standard.set(lastOpenedTabs, forKey: UserDefaultValues.lastOpenedTabs)
                 }
-            }
         }
         
         // Add the `webView` to the `webTabView`
@@ -167,21 +165,17 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
         webView?.configuration.websiteDataStore = .default()
         
         // Configure the elements
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [self] _ in
             configureElements()
             if loadURL {
                 webView!.loadHTMLString(startPageHTML, baseURL: newtabURL!)
             }
-        }
         
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] _ in
             if AppConfigurations.hidesScreenElementsWhenNotActive {
                 // When the app enters the background
                 let nc = NotificationCenter.default
                 nc.addObserver(self, selector: #selector(willEnterBackground), name: NSApplication.willResignActiveNotification, object: nil)
                 nc.addObserver(self, selector: #selector(willBecomeActive), name: NSApplication.willBecomeActiveNotification, object: nil)
             }
-        }
     }
     
     @objc func willEnterBackground() {
@@ -450,51 +444,55 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
     }
     
     func updateThemeColor(colorConfig: MATabViewConfiguration) {
-        let javascript = #"""
-                function a() {
-                    var theme = document.querySelector("meta[name=theme-color]");
-                    if (theme) {
-                        return theme.content;
-                    } else {
-                        return window.getComputedStyle(document.body).backgroundColor;
-                    }
-                };
-                a();
-        """#
+        // We must add a timer, otherwise it would look bad since it's rendering the webview and the background color
         
-        webView!.evaluateJavaScript(javascript) { [self] value, _ in
-            if let value = value {
-                let hexValue = value as! String
-                var color = NSColor.red
-                if hexValue.starts(with: "rgb") {
-                    let colors = hexValue.stringAfter("(").stringBefore(")")
-                    let colorValues = colors.components(separatedBy: ",")
-                    var alpha = 1.0
-                    if colorValues.count == 2 {
-                        alpha = CGFloat(Float(colorValues[3])!)
+        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false) { [self] _ in
+            let javascript = #"""
+                    function a() {
+                        var theme = document.querySelector("meta[name=theme-color]");
+                        if (theme) {
+                            return theme.content;
+                        } else {
+                            return window.getComputedStyle(document.body).backgroundColor;
+                        }
+                    };
+                    a();
+            """#
+            
+            webView!.evaluateJavaScript(javascript) { [self] value, _ in
+                if let value = value {
+                    let hexValue = value as! String
+                    var color = NSColor.red
+                    if hexValue.starts(with: "rgb") {
+                        let colors = hexValue.stringAfter("(").stringBefore(")")
+                        let colorValues = colors.components(separatedBy: ",")
+                        var alpha = 1.0
+                        if colorValues.count == 2 {
+                            alpha = CGFloat(Float(colorValues[3])!)
+                        }
+                        
+                        color = NSColor(
+                            red: CGFloat(Float(colorValues[0].removeWhitespace)!),
+                            green: CGFloat(Float(colorValues[1].removeWhitespace)!),
+                            blue: CGFloat(Float(colorValues[2].removeWhitespace)!),
+                            alpha: alpha
+                        )
+                    } else {
+                        color = NSColor(hex: hexValue)
                     }
                     
-                    color = NSColor(
-                        red: CGFloat(Float(colorValues[0].removeWhitespace)!),
-                        green: CGFloat(Float(colorValues[1].removeWhitespace)!),
-                        blue: CGFloat(Float(colorValues[2].removeWhitespace)!),
-                        alpha: alpha
-                    )
+                    colorConfig.lightTabBackgroundColor = color
+                    colorConfig.darkTabColor = color.lighter()
+                    colorConfig.lightTabColor = color.darker()
+                    
+                    colorConfig.darkTabBackgroundColor = color
+                    updateColors(colorConfig: colorConfig)
                 } else {
-                    color = NSColor(hex: hexValue)
+                    let blankColorConfig = MATabViewConfiguration()
+                    updateColors(colorConfig: blankColorConfig)
                 }
-                
-                colorConfig.lightTabBackgroundColor = color
-                colorConfig.darkTabColor = color.lighter()
-                colorConfig.lightTabColor = color.darker()
-                
-                colorConfig.darkTabBackgroundColor = color
-                updateColors(colorConfig: colorConfig)
-            } else {
-                let blankColorConfig = MATabViewConfiguration()
-                updateColors(colorConfig: blankColorConfig)
+                print("THEME COLOR = \(value ?? "UNKNOWN")")
             }
-            print("THEME COLOR = \(value ?? "UNKNOWN")")
         }
     }
     
@@ -1059,6 +1057,10 @@ class MAViewController: NSViewController, MAWebViewDelegate, NSSearchFieldDelega
             for dictionary in dictionary {
                 bookmarksBar.add(item: MABookmarksItem(title: dictionary.key, url: URL(string: dictionary.value)!))
             }
+        } else {
+            let dictionary = [String:String]()
+            
+            defaults.set(dictionary, forKey: UserDefaultValues.bookmarksBarItem)
         }
     }
     

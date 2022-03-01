@@ -1,6 +1,8 @@
 #  Changes
 
 ## v1.2
+- Created a little delay to the color's when switching the tabs
+- If the bookmarks bar userdefault doesn't exist, we will create an empty dictionary 
 - Fixed the bookmarks problem where it will crash the app
 - Few improvements with a few stuff
 - Added Support for colors in the bookmarks bar
